@@ -1,0 +1,10 @@
+# Ignore Axon Server JAR files
+axonserver.jar
+axonserver-cli.jar
+axonserver-ee.jar
+
+# Ignore Maven build results
+**/target
+
+# Ignore Axon Server generated files
+AxonIQ.pid

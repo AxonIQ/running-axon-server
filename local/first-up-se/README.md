@@ -1,9 +1,10 @@
 ## First up
 
-To start Axon Server, you could simply ensure the JAR file has execute rights, and then run it, as it is an Spring-boot Executable JAR. However, this also changes the working directory for Axon Server to be the same as where the JAR is, which is not what we want in this case. So run the `java` command with the "`-jar`" option:
+To start Axon Server, you could simply ensure the JAR file has execute rights, and then run it, as it is an Spring-boot Executable JAR. However, this also changes the working directory for Axon Server to be the same as where the JAR is, which is not what we want in this case. So simply run the `java` command with the "`-jar`" option.
+
+**NOITE** Java 8 and 11 will both work.
 
 ```bash
-$ chmod 755 ../../*.jar
 $ java -jar ../../axonserver.jar
 ```
 

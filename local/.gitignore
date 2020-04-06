@@ -1,0 +1,4 @@
+# Ignore Axon Server generated files and directories
+**/data
+**/log
+**/events
