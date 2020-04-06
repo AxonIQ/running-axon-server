@@ -2,7 +2,7 @@
 
 The files in this repo accompany the "Running Axon Server" Blog series.
 
-* [`local`] contains scripts and configuration files for running Axon Server as a local process.
+* [**local**](./local) contains scripts and configuration files for running Axon Server as a local process.
 * [`docker`] contains the files for "pure" Docker.
 * [`docker-compose`] is for running with Docker-compose.
 * [`k8s`] is all about Kubernetes deployments.
