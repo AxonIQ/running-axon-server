@@ -1,8 +1,10 @@
 ## First up
 
-To start Axon Server, you can simply ensure the JAR file has execute rights, and then run it, as it is an Spring-boot Executable JAR:
+To start Axon Server, you could simply ensure the JAR file has execute rights, and then run it, as it is an Spring-boot Executable JAR. However, this also changes the working directory for Axon Server to be the same as where the JAR is, which is not what we want in this case. So run the `java` command with the "`-jar`" option:
 
 ```bash
 $ chmod 755 ../../*.jar
-$ ../../axonserver.jar
+$ java -jar ../../axonserver.jar
 ```
+
+Afterwards you'll see a directory named "`data`" created here with a subdirectory "`default`" for the event store. The ControlDB is also created in `data`, while a so-called PID file is made in the current directory. You can quit Axon Server just by pressing Control-C, and it will clean up the PID file. If you start it in the background, you can use the number in the PID file to find the process id you need to "kill".
