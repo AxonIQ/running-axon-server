@@ -1,4 +1,4 @@
-## The Axon Server QuickTester
+## The Axon Server QuickTest Application
 
 The program in this directory provides a small and quick test to see if Axon Server is up anmd running. It requires Java 11 and Maven to build, but an executable JAR is included as well that you can run.
 

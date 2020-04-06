@@ -7,7 +7,7 @@ The files in this repo accompany the "Running Axon Server" Blog series.
 1. [**docker-compose**](./docker-compose) is for running with Docker-compose.
 1. [**k8s**](./k8s) is all about Kubernetes deployments.
 1. The [**ee-image**](./ee-image) directory contains the files for making an Axon Server EE Docker image.
-1. Finally, the [**Axon Server QuickTester**](./axonserver-quicktester) directory provides a small app to verify that Axon Server is up and running.
+1. Finally, the [**Axon Server QuickTest**](./axonserver-quicktest) directory provides a small app to verify that Axon Server is up and running.
 
 Please make sure a copy of the JAR files is in this (central) directory, named:
 
