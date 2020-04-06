@@ -5,3 +5,4 @@ To start Axon Server, you can simply ensure the JAR file has execute rights, and
 ```bash
 $ chmod 755 ../../*.jar
 $ ../../axonserver.jar
+```
