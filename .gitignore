@@ -2,6 +2,7 @@
 axonserver.jar
 axonserver-cli.jar
 axonserver-ee.jar
+axoniq.license
 
 # Ignore Maven build results
 **/target
