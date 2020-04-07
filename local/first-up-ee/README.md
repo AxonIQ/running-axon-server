@@ -10,3 +10,4 @@ The properties files in these three directories use only a few settings:
 
 * `axoniq.axonserver.name` is set to the name of the node, resp. "node-1", "node-2", and "node-3"
 * `axoniq.axonserver.hostname` is set to localhost
+* `server.port`, `axoniq.axonserver.port`, and `axoniq.axonserver.internal-port` are used to ensure each node uses different ports.

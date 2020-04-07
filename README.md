@@ -14,3 +14,10 @@ Please make sure a copy of the JAR files is in this (central) directory, named:
 * The Axon Server SE jar file: `axonserver.jar`
 * The Axon Server CLI jar file: `axonserver-cli.jar`
 * The Axon Server EE jar file (if applicable): `axonserver-ee.jar`
+
+There are some scripts that make life easy and will be repeated over several of the directories:
+* `startup.sh` will start Axon Server.
+* `shutdown.sh` will stop Axon Server.
+* `cleanup.sh` will clean the Axon Server created files.
+
+For clusters, the start and stop scripts expect the name of the node as parameter, cleanup will wipe all nodes.

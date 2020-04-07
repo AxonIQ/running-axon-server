@@ -1,6 +1,15 @@
 #!/bin/bash
 
-AXONSERVER_PIDFILE=./AxonIQ.pid
+if [[ $# != 1 ]] ; then
+    echo "Usage: $0 <node-name>"
+    exit 1
+elif [ ! -d $1 ] ; then
+    echo "No directory for node \"$1\" found."
+    exit 1
+fi
+
+AXONSERVER_NAME=$1
+AXONSERVER_PIDFILE=${AXONSERVER_NAME}/AxonIQ.pid
 if [ ! -s ${AXONSERVER_PIDFILE} ] ; then
     echo "There is no Axon Server node active."
     exit 1
@@ -16,7 +25,7 @@ while ps -p ${AXONSERVER_PID} >/dev/null ; do
     sleep 5
 
     countDown=`expr ${countDown} - 1`
-    if [[ "${countDown}" == "" -o "${countDown}" == "0" ]]  ; then
+    if [[ "${countDown}" == "" || "${countDown}" == "0" ]]  ; then
         break
     fi
 done
