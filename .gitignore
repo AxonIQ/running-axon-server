@@ -9,3 +9,8 @@ axoniq.license
 
 # Ignore Axon Server generated files
 AxonIQ.pid
+
+# Ignore IDE/Editor configuration
+.idea
+*.iml
+.vscode
