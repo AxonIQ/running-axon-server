@@ -89,7 +89,7 @@ O="${CERT_ORG}"
 CN="${CERT_CN}"
 EOF
 
-openssl req -config ${CSR_CONFIG} -new -newkey rsa:2048 -nodes -keyout tls.key -out tls.csr
+openssl req -config ${CSR_CONFIG} -newkey rsa:4096 -nodes -keyout tls.key -out tls.csr
 openssl x509 -req -days 365 -in tls.csr -signkey tls.key -out tls.crt
 openssl pkcs12 -export -out tls.p12 -inkey tls.key -in tls.crt  -name axonserver -passout pass:axonserver
 
