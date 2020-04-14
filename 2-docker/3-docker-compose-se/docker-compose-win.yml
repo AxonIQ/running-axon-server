@@ -6,7 +6,7 @@ services:
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata
-      - axonserver-config:/config:ro
+      - axonserver-config:ro
     ports:
       - '8024:8024'
       - '8124:8124'
@@ -16,20 +16,8 @@ services:
 
 volumes:
   axonserver-data:
-    driver: local
-    driver_opts:
-      type: "None"
-      device: ./data
   axonserver-events:
-    driver: local
-    driver_opts:
-      type: "None"
-      device: ./events
   axonserver-config:
-    driver: local
-    driver_opts:
-      type: "None"
-      device: ./config
 
 networks:
   axon-demo:
