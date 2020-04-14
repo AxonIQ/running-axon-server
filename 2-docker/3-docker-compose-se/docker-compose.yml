@@ -18,18 +18,21 @@ volumes:
   axonserver-data:
     driver: local
     driver_opts:
-      type: "None"
-      device: ./data
+      o: bind
+      type: none
+      device: ${PWD}/data
   axonserver-events:
     driver: local
     driver_opts:
-      type: "None"
-      device: ./events
+      o: bind
+      type: none
+      device: ${PWD}/events
   axonserver-config:
     driver: local
     driver_opts:
-      type: "None"
-      device: ./config
+      o: bind
+      type: none
+      device: ${PWD}/config
 
 networks:
   axon-demo:
