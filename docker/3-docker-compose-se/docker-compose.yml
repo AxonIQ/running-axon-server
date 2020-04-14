@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  axonserver:
+    image: axoniq/axonserver
+    hostname: axonserver
+    volumes:
+      - d:/dev/AxonIQ/running-axon-server/axonserver-se/docker-compose/data:/data
+      - d:/dev/AxonIQ/running-axon-server/axonserver-se/docker-compose/events:/eventdata
+      - d:/dev/AxonIQ/running-axon-server/axonserver-se/docker-compose/config:/config:ro
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+    networks:
+      - axon-demo
+
+# volumes:
+#   axonserver-data:
+#     driver: local
+#     driver_opts:
+#       type: "None"
+#       device: D:\dev\AxonIQ\running-axon-server\axonserver-se\docker-compose\data
+#   axonserver-events:
+#     driver: local
+#     driver_opts:
+#       type: "None"
+#       device: D:\dev\AxonIQ\running-axon-server\axonserver-se\docker-compose\events
+#   axonserver-config:
+#     driver: local
+#     driver_opts:
+#       type: "None"
+#       device: D:\dev\AxonIQ\running-axon-server\axonserver-se\docker-compose\config
+
+networks:
+  axon-demo:
