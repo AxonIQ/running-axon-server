@@ -2,22 +2,29 @@
 
 The files in this repo accompany the "Running Axon Server" Blog series.
 
-1. [**local**](./local) contains scripts and configuration files for running Axon Server as a local process.
-1. [**docker**](./docker) contains the files for "pure" Docker.
-1. [**docker-compose**](./docker-compose) is for running with Docker-compose.
-1. [**k8s**](./k8s) is all about Kubernetes deployments.
-1. The [**ee-image**](./ee-image) directory contains the files for making an Axon Server EE Docker image.
+1. [**1-local**](./1-local) contains scripts and configuration files for running Axon Server as a local process.
+1. [**2-docker**](./2-docker) contains the files for "pure" Docker.
+1. [**3-k8s**](./3-k8s) is all about Kubernetes deployments.
+1. The [**ee-image**](./2-docker/0-ee-docker-image) directory (under "2-docker") contains the files for making an Axon Server EE Docker image.
 1. Finally, the [**Axon Server QuickTest**](./axonserver-quicktest) directory provides a small app to verify that Axon Server is up and running.
 
 Please make sure a copy of the JAR files is in this (central) directory, named:
 
-* The Axon Server SE jar file: `axonserver.jar`
-* The Axon Server CLI jar file: `axonserver-cli.jar`
-* The Axon Server EE jar file (if applicable): `axonserver-ee.jar`
+* The Axon Server SE jar fil "`axonserver.jar`"
+* The Axon Server CLI jar file "`axonserver-cli.jar`"
+
+If you're working with Axoin Server EE, you'll also need:
+* The Axon Server EE jar file "`axonserver-ee.jar`".
+* A valid license file "`axoniq.licensse`".
+* A system token file "`axonserver-token`". Generate one using:
+
+    ```bash
+    uuidgen > axonserver.token
+    ```
 
 There are some scripts that make life easy and will be repeated over several of the directories:
-* `startup.sh` will start Axon Server.
-* `shutdown.sh` will stop Axon Server.
-* `cleanup.sh` will clean the Axon Server created files.
+* "`startup.sh`" will start Axon Server.
+* "`shutdown.sh`" will stop Axon Server.
+* "`cleanup.sh`" will clean the Axon Server created files.
 
 For clusters, the start and stop scripts expect the name of the node as parameter, cleanup will wipe all nodes.
