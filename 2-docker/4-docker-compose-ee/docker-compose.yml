@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   axonserver-1:
-    image: eu.gcr.io/axoniq-devops/axonserver-ee:test
+    image: axonserver-ee:running
     hostname: axonserver-1
     volumes:
       - axonserver-data1:/axonserver/data
@@ -22,7 +22,7 @@ services:
       - axon-demo
 
   axonserver-2:
-    image: eu.gcr.io/axoniq-devops/axonserver-ee:test
+    image: axonserver-ee:running
     hostname: axonserver-2
     volumes:
       - axonserver-data2:/axonserver/data
@@ -43,7 +43,7 @@ services:
       - axon-demo
 
   axonserver-3:
-    image: eu.gcr.io/axoniq-devops/axonserver-ee:test
+    image: axonserver-ee:running
     hostname: axonserver-3
     volumes:
       - axonserver-data3:/axonserver/data
@@ -126,4 +126,7 @@ secrets:
   axonserver-properties:
     file: ./axonserver.properties
   axoniq-license:
-    file: ./axoniq.license
+    file: ../../axoniq.license
+  axonserver-token:
+    file: ../../axonserver.token
+
