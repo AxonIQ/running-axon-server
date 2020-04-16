@@ -7,7 +7,6 @@ services:
       - axonserver-data1:/axonserver/data
       - axonserver-events1:/axonserver/events
       - axonserver-log1:/axonserver/log
-      - axonserver-config:/axonserver/config:ro
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -29,7 +28,6 @@ services:
       - axonserver-data2:/axonserver/data
       - axonserver-events2:/axonserver/events
       - axonserver-log2:/axonserver/log
-      - axonserver-config:/axonserver/config:ro
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -51,7 +49,6 @@ services:
       - axonserver-data3:/axonserver/data
       - axonserver-events3:/axonserver/events
       - axonserver-log3:/axonserver/log
-      - axonserver-config:/axonserver/config:ro
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
