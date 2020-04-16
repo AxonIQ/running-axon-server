@@ -4,20 +4,22 @@ services:
     image: axoniq/axonserver
     hostname: axonserver
     volumes:
-      - axonserver-data:/data
-      - axonserver-events:/eventdata
-      - axonserver-config:ro
+      - type: bind
+        source: ./data
+        target: /data
+      - type: bind
+        source: ./events
+        target: /eventdata
+      - type: bind
+        source: ./config
+        target: /config
+        read_only: true
     ports:
       - '8024:8024'
       - '8124:8124'
       - '8224:8224'
     networks:
       - axon-demo
-
-volumes:
-  axonserver-data:
-  axonserver-events:
-  axonserver-config:
 
 networks:
   axon-demo:
