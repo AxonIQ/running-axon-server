@@ -59,7 +59,7 @@ kind: Service
 metadata:
   name: axonserver-gui
   labels:
-    app: axonserver-gui
+    app: axonserver
 spec:
   ports:
   - name: gui
