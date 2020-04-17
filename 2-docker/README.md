@@ -10,6 +10,5 @@ For this reason I will try to provide two versions of the scripts: one for Windo
 
 * [**Building an Axon Server EE image**](./0-ee-docker-image)
 * [**Axon Server SE in Docker**](./1-docker-se)
-* [**Axon Server EE in Docker**](./2-docker-ee)
-* [**Axon Server SE in docker-compose**](./3-docker-compose-se)
-* [**Axon Server EE in docker-compose**](./4-docker-compose-ee)
+* [**Axon Server SE in docker-compose**](./2-docker-compose-se)
+* [**Axon Server EE in docker-compose**](./3-docker-compose-ee)

@@ -1,0 +1,3 @@
+## Running Axon Server EE in with docker-compose
+
+When running Axon Server EE in `docker-compose`, we run into an unexpected difference concerning the mounted volumes: where bare Docker will mount volumes using the active user as owner, with docker-compose this is not the case. If starting tthe cluster fails due to Axon Server being unable to access files (most visible in the logs is an inability to use the ControlDB), you'll have to run "`chmod 777 data? events? log?`".
