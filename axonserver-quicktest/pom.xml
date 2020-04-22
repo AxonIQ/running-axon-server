@@ -36,7 +36,8 @@
         <jib-maven-plugin.version>2.1.0</jib-maven-plugin.version>
 
         <axon.version>4.3.1</axon.version>
-        <jackson-version>2.9.7</jackson-version>
+        <jackson-version>2.9.10.3</jackson-version>
+        <jackson-jsr-version>2.9.10</jackson-jsr-version>
     </properties>
 
     <dependencyManagement>
@@ -69,7 +70,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-jsr-version}</version>
         </dependency>
     </dependencies>
 
