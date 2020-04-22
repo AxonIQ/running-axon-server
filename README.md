@@ -24,10 +24,10 @@ The files in this repo accompany the "Running Axon Server" Blog series.
 
 Please make sure a copy of the JAR files is in this (central) directory, named:
 
-* The Axon Server SE jar fil "`axonserver.jar`"
+* The Axon Server SE jar file "`axonserver.jar`"
 * The Axon Server CLI jar file "`axonserver-cli.jar`"
 
-If you're working with Axoin Server EE, you'll also need:
+If you're working with Axon Server Enterprise Edition, you'll also need:
 * The Axon Server EE jar file "`axonserver-ee.jar`".
 * A valid license file "`axoniq.licensse`".
 * A system token file "`axonserver-token`". Generate one using:
