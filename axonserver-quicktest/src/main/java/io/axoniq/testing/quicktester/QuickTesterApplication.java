@@ -47,6 +47,7 @@ public class QuickTesterApplication {
     public CommandLineRunner getRunner(CommandGateway gwy) {
         return (args) -> {
             gwy.send(new TestCommand("QuickTesterApplication.getRunner", "Hi there!"));
+            Thread.sleep(20000);
             SpringApplication.exit(ctx);
         };
     }

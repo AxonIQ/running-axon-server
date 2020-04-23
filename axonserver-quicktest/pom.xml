@@ -35,9 +35,9 @@
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <jib-maven-plugin.version>2.1.0</jib-maven-plugin.version>
 
-        <axon.version>4.3.1</axon.version>
-        <jackson-version>2.9.10.3</jackson-version>
-        <jackson-jsr-version>2.9.10</jackson-jsr-version>
+        <axon.version>4.3.2</axon.version>
+        <jackson-version>2.10.3</jackson-version>
+        <jackson-jsr-version>2.10.3</jackson-jsr-version>
     </properties>
 
     <dependencyManagement>
@@ -62,9 +62,20 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- Due to a security finding in version 2.9.10.x, we force 2.10.3 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
             <version>${jackson-version}</version>
         </dependency>
         <dependency>

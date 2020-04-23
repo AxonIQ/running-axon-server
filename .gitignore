@@ -14,3 +14,11 @@ AxonIQ.pid
 .idea
 *.iml
 .vscode
+
+# Generated/test files
+.token
+tls.csr
+tls.crt
+tls.key
+tls.p12
+*.log
