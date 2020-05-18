@@ -1,0 +1,53 @@
+{{- if .Values.services.httpService.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "axon-server-se.fullname" . }}-ui
+  labels:
+    {{- include "axon-server-se.labels" . | nindent 4 }}
+  {{- with .Values.services.httpService.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if eq .Values.services.httpService.type "Headless" }}
+  clusterIP: None
+  type: ClusterIP
+  {{- else }}
+  type: {{ .Values.services.httpService.type }}
+  {{- end }}
+  ports:
+    - name: http
+      port: {{ .Values.services.httpService.port }}
+      targetPort: {{ .Values.services.httpService.port }}
+      protocol: TCP
+  selector:
+    {{- include "axon-server-se.selectorLabels" . | nindent 4 }}
+{{- end }}
+---
+{{- if .Values.services.grpcService.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "axon-server-se.fullname" . }}
+  labels:
+    {{- include "axon-server-se.labels" . | nindent 4 }}
+  {{- with .Values.services.grpcService.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if eq .Values.services.grpcService.type "Headless" }}
+  clusterIP: None
+  type: ClusterIP
+  {{- else }}
+  type: {{ .Values.services.grpcService.type }}
+  {{- end }}
+  ports:
+    - name: grpc
+      port: {{ .Values.services.grpcService.port }}
+      targetPort: {{ .Values.services.grpcService.port }}
+      protocol: TCP
+  selector:
+    {{- include "axon-server-se.selectorLabels" . | nindent 4 }}
+{{- end }}

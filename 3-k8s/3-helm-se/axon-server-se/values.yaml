@@ -1,0 +1,131 @@
+# Default values for axon-server-se.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: axoniq/axonserver
+  pullPolicy: IfNotPresent
+  # Don't override default
+  #tag: ""
+
+# Axon Server specific settings
+axonserver: {}
+    # The HTTP port to use inside the container, defaults to 8024
+    #httpPort: 8024
+    # The client gRPC port to use inside the container, defaults to 8124
+    #grpcPort: 8124
+
+#imagePullSecrets: []
+#nameOverride: ""
+#fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "axonserver"
+
+# Annotations to add to the StatefulSet
+stsAnnotations: {}
+
+stsSecurityContext: {}
+  # fsGroup: 1001
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1001
+
+# Here you can set (or link to) Axon Server properties
+properties:
+  # Default: none
+  #kind: none
+
+  # First alternative: link to a secret
+  #kind: "Secret"
+  #secretName: axon-server-secret
+
+  # Second alternative: link to a configMap
+  #kind: "ConfigMap"
+  #configMapName: axon-server-config
+
+  # Third: inline secret
+  kind: "InlineSecret"
+  #secretName: axon-server-secret
+
+  # Fourth: inline configMap
+  #kind: "InlineConfigMap"
+  #configMapName: axon-server-config
+
+  content: |-
+    axoniq.axonserver.accesscontrol.enabled=true
+    axoniq.axonserver.accesscontrol.token=my-token
+
+volumes:
+  eventStore:
+    # How much space to claim
+    #size: 5Gi
+    # Configure here how your provider lets you map disks to Kubernetes volumes
+    persistentVolumeSettings: {}
+      #gcePersistentDisk:
+      #  pdName: axon-server-events
+  data:
+    # How much space to claim
+    #size: 1Gi
+    # Configure here how your provider lets you map disks to Kubernetes volumes
+    persistentVolumeSettings: {}
+      #gcePersistentDisk:
+      #  pdName: axon-server-data
+
+services:
+  httpService:
+    enabled: true
+    # Use type "Headless" for "ClusterIP" with added "clusterIP: None"
+    type: ClusterIP
+    port: 8024
+    annotations:
+      cloud.google.com/neg: '{"exposed_ports": {"8024":{}}}'
+      anthos.cft.dev/autoneg: '{"name":"test-axonserverse-backend", "max_rate_per_endpoint":1000}'
+  grpcService:
+    enabled: true
+    # Use type "Headless" for "ClusterIP" with added "clusterIP: None"
+    type: Headless
+    port: 8124
+    annotations: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: axonserver.local
+      paths: []
+#  tls: []
+#    - secretName: chart-example-tls
+#      hosts:
+#        - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+#nodeSelector: {}
+
+#tolerations: []
+
+#affinity: {}

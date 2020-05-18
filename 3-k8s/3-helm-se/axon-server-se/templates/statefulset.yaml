@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "axon-server-se.fullname" . }}
+  labels:
+    {{- include "axon-server-se.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "axon-server-se.fullname" . }}
+  selector:
+    matchLabels:
+      {{- include "axon-server-se.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.stsAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "axon-server-se.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "axon-server-se.serviceAccountName" . }}
+      {{- with .Values.stsSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.axonserver.httpPort | default 8024 }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.axonserver.grpcPort | default 8124 }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/info
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/info
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 30
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: events
+              mountPath: /eventdata
+            - name: config
+              mountPath: /config
+              readOnly: true
+      volumes:
+        {{- if eq .Values.properties.kind "ConfigMap" "InlineConfigMap" }}
+        - name: config
+          configMap:
+            name: {{ .Values.properties.configMapName | default "axon-server-config" }}
+        {{- end}}
+        {{- if eq .Values.properties.kind "Secret" "InlineSecret" }}
+        - name: config
+          secret:
+            secretName: {{ .Values.properties.secretName | default "axon-server-secret" }}
+        {{- end}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: events
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.volumes.eventStore.size | default "5Gi" }}
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.volumes.data.size | default "1Gi" }}

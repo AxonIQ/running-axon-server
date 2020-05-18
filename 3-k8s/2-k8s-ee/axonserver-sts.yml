@@ -16,6 +16,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: axonserver
+  labels:
+    app: axonserver
 spec:
   serviceName: axonserver
   replicas: 1
@@ -31,57 +33,51 @@ spec:
         runAsUser: 1001
         fsGroup: 1001
       containers:
-        - name: axonserver
-          image: eu.gcr.io/axoniq-devops/axonserver-ee:running
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8124
-              protocol: TCP
-              name: grpc
-            - containerPort: 8024
-              protocol: TCP
-              name: http
-          env:
-          - name: AXONIQ_LICENSE
-            value: "/axonserver/license/axoniq.license"
-          volumeMounts:
-            - name: data
-              mountPath: /axonserver/data
-            - name: events
-              mountPath: /axonserver/events
-            - name: log
-              mountPath: /axonserver/log
-            - name: config
-              mountPath: /axonserver/config
-              readOnly: true
-            - name: system-token
-              mountPath: /axonserver/security
-              readOnly: true
-            - name: license
-              mountPath: /axonserver/license
-              readOnly: true
-        #   startupProbe:
-        #     httpGet:
-        #       path: /actuator/info
-        #       port: http
-        #     failureThreshold: 30
-        #     periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /actuator/info
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            timeoutSeconds: 1
-            failureThreshold: 30
-          livenessProbe:
-            httpGet:
-              path: /actuator/info
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 3
+      - name: axonserver
+        image: axoniq/axonserver-ee:4.3.4
+        imagePullPolicy: Always
+        ports:
+        - name: grpc
+          containerPort: 8124
+          protocol: TCP
+        - name: gui
+          containerPort: 8024
+          protocol: TCP
+        env:
+        - name: AXONIQ_LICENSE
+          value: "/axonserver/license/axoniq.license"
+        volumeMounts:
+        - name: data
+          mountPath: /axonserver/data
+        - name: events
+          mountPath: /axonserver/events
+        - name: log
+          mountPath: /axonserver/log
+        - name: config
+          mountPath: /axonserver/config
+          readOnly: true
+        - name: system-token
+          mountPath: /axonserver/security
+          readOnly: true
+        - name: license
+          mountPath: /axonserver/license
+          readOnly: true
+        readinessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
       volumes:
         - name: config
           configMap:

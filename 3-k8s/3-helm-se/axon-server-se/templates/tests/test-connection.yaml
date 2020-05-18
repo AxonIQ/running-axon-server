@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "axon-server-se.fullname" . }}-test-connection"
+  labels:
+    {{- include "axon-server-se.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "axon-server-se.fullname" . }}:{{ .Values.services.httpService.port }}']
+  restartPolicy: Never

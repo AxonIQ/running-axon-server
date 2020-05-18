@@ -1,0 +1,11 @@
+{{- if eq .Values.properties.kind "InlineConfigMap"  -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.properties.configMapName | default "axon-server-config" }}
+  labels:
+    {{- include "axon-server-se.labels" . | nindent 4 }}
+data:
+  axonserver.properties: |
+{{ .Values.properties.content | indent 4 -}}
+{{- end -}}

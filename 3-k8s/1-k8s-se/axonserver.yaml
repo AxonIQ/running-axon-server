@@ -41,20 +41,29 @@ spec:
           containerPort: 8024
           protocol: TCP
         volumeMounts:
-        - name: eventstore
-          mountPath: /eventdata
         - name: data
           mountPath: /data
+        - name: events
+          mountPath: /eventdata
         readinessProbe:
           httpGet:
-            port: 8024
             path: /actuator/info
+            port: 8024
           initialDelaySeconds: 5
           periodSeconds: 5
           timeoutSeconds: 1
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
   volumeClaimTemplates:
     - metadata:
-        name: eventstore
+        name: events
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
