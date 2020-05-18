@@ -87,11 +87,11 @@ services:
   httpService:
     enabled: true
     # Use type "Headless" for "ClusterIP" with added "clusterIP: None"
-    type: ClusterIP
+    type: LoadBalancer
     port: 8024
-    annotations:
-      cloud.google.com/neg: '{"exposed_ports": {"8024":{}}}'
-      anthos.cft.dev/autoneg: '{"name":"test-axonserverse-backend", "max_rate_per_endpoint":1000}'
+    # annotations:
+    #   cloud.google.com/neg: '{"exposed_ports": {"8024":{}}}'
+    #   anthos.cft.dev/autoneg: '{"name":"test-axonserverse-backend", "max_rate_per_endpoint":1000}'
   grpcService:
     enabled: true
     # Use type "Headless" for "ClusterIP" with added "clusterIP: None"
