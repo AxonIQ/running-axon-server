@@ -12,11 +12,31 @@
    See the License for the specific language governing permissions and
    limitations under the License. -->
 
-## The Axon Server QuickTest Application
+# The Axon Server QuickTest Application
 
 The program in this directory provides a small and quick test to see if Axon Server is up anmd running. It requires Java 11 and Maven to build, but an executable JAR is included as well that you can run.
 
-### Example: Run from Maven
+## Spring Profiles
+
+This app uses Spring profiles. You can activate profiles by setting the "`spring.profiles.active`" property, or the "`SPRING_PROFILES_ACTIVE`" environment variable.
+
+* "`default`"
+
+    If You specify no profile, "`default`" is activated instead. This application uses a local Axon Configuration in that case, so the test command and event will stay within the app, and the eventstore is in-memory.
+
+* "`axonserver`"
+
+    With this profile the "`AxonServerConnector`" is configured, and the app will attempt to connect to Axon Server.
+
+* "`subscribing`"
+
+    Adding this profile will make the app use a `SubscribingEventProcessor` rather than the default `TrackingEventProcessor`.
+
+## Other configuration options
+
+You can use the "`ms-delay`" property (or "`MS_DELAY`" environment variable) to set the number of milliseconds delay at the end of the testrun.
+
+## Example: Run from Maven
 
 ```bash
 $ mvn spring-boot:run

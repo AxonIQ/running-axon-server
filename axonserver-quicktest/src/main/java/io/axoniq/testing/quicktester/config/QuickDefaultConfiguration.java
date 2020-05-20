@@ -20,6 +20,15 @@ import org.axonframework.commandhandling.distributed.AnnotationRoutingStrategy;
 import org.axonframework.commandhandling.distributed.UnresolvedRoutingKeyPolicy;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.SimpleEventBus;
+import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
+import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
+import org.axonframework.eventsourcing.eventstore.EventStore;
+import org.axonframework.eventsourcing.eventstore.inmemory.InMemoryEventStorageEngine;
+import org.axonframework.queryhandling.QueryBus;
+import org.axonframework.queryhandling.SimpleQueryBus;
+import org.axonframework.spring.config.AxonConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -49,5 +58,28 @@ public class QuickDefaultConfiguration {
         return DefaultCommandGateway.builder()
                 .commandBus(commandBus)
                 .build();
+    }
+
+//    @Bean
+//    public EmbeddedEventStore eventStore(EventStorageEngine storageEngine, AxonConfiguration configuration) {
+//        return EmbeddedEventStore.builder()
+//                .storageEngine(storageEngine)
+//                .messageMonitor(configuration.messageMonitor(EventStore.class, "eventStore"))
+//                .build();
+//    }
+
+    @Bean
+    public EventStorageEngine storageEngine() {
+        return new InMemoryEventStorageEngine();
+    }
+
+    @Bean
+    public EventBus eventBus() {
+        return SimpleEventBus.builder().build();
+    }
+
+    @Bean
+    public QueryBus queryBus() {
+        return SimpleQueryBus.builder().build();
     }
 }
