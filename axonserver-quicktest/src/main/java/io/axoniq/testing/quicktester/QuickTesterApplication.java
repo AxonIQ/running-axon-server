@@ -24,11 +24,14 @@ import org.axonframework.commandhandling.distributed.AnnotationRoutingStrategy;
 import org.axonframework.commandhandling.distributed.UnresolvedRoutingKeyPolicy;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.serialization.Serializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Date;
 
 @SpringBootApplication
 public class QuickTesterApplication {
@@ -43,28 +46,20 @@ public class QuickTesterApplication {
         SpringApplication.run(QuickTesterApplication.class, args);
     }
 
+    private static String getMessage() {
+        return "Hi there! It is " + new Date().toString() + ".";
+    }
+
+    @Value("${ms-delay:20000}")
+    private long delay;
+
     @Bean
     public CommandLineRunner getRunner(CommandGateway gwy) {
         return (args) -> {
-            gwy.send(new TestCommand("QuickTesterApplication.getRunner", "Hi there!"));
-            Thread.sleep(20000);
+            gwy.send(new TestCommand("QuickTesterApplication.getRunner", getMessage()));
+            Thread.sleep(delay);
             SpringApplication.exit(ctx);
         };
     }
 
-    @Bean
-    public CommandBus commandBus(AxonServerConfiguration config,
-                                 AxonServerConnectionManager connectionManager,
-                                 Serializer eventSerializer)
-    {
-        AnnotationRoutingStrategy strategy = new AnnotationRoutingStrategy(UnresolvedRoutingKeyPolicy.RANDOM_KEY);
-
-        return AxonServerCommandBus.builder()
-                .axonServerConnectionManager(connectionManager)
-                .configuration(config)
-                .localSegment(SimpleCommandBus.builder().build())
-                .serializer(eventSerializer)
-                .routingStrategy(strategy)
-                .build();
-    }
 }
