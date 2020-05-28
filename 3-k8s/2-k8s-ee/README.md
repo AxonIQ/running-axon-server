@@ -18,6 +18,59 @@
 The files in this directory are to help you on your way, but there are so many things you might want to tune, that we do
 not want to present this as **the definitive best way.**
 
-The `create-secrets.sh` script will generate de `axonserver.properties` ConfigMap, license secret, and system-token secret, given a service name and namespace. The example "svc" file uses "axonserver" for the headless service, so that is what you should use for this particular example.
+The `create-secrets.sh` script will generate de `axonserver.properties` ConfigMap, license secret, and system-token secret, given a service name and namespace.
 
+To deploy using a "`LoadBalancer`" service for the UI, use:
 
+```bash
+$ kubectl create ns test-ee
+namespace/test-ee created
+$ ./create-secrets.sh axonserver test-ee
+secret/axonserver-license created
+secret/axonserver-token created
+configmap/axonserver-properties created
+$ kubectl apply -f axonserver-sts.yml -n test-ee
+statefulset.apps/axonserver created
+$ kubectl apply -f axonserver-svc.yml -n test-ee
+service/axonserver-gui created
+service/axonserver created
+$ 
+```
+
+To deploy with an Ingress, use:
+
+```bash
+$ kubectl create ns test-ee
+namespace/test-ee created
+$ ./create-secrets.sh axonserver test-ee
+secret/axonserver-license created
+secret/axonserver-token created
+configmap/axonserver-properties created
+$ kubectl apply -f axonserver-sts.yml -n test-ee
+statefulset.apps/axonserver created
+$ kubectl apply -f axonserver-ing.yml -n test-ee
+service/axonserver-gui created
+service/axonserver created
+ingress.networking.k8s.io/axonserver created
+$ 
+```
+
+The Ingress supplied maps to hostname "`axonserver`", so please make sure that is defined in your hosts file. To create your first user, you can do the following:
+
+```bash
+$ ../../axonserver-cli.jar users -t $(cat ../../axonserver.token) -S http://axonserver:80
+Name
+$ ../../axonserver-cli.jar register-user -t $(cat ../../axonserver.token) -S http://axonserver:80 -u admin -p test -r ADMIN@_admin
+$ ../../axonserver-cli.jar users -t $(cat ../../axonserver.token) -S http://axonserver:80
+Name
+admin
+$
+```
+
+You can now login with username "`admin`" and password "`test`", and in the "Overview" tab watch how the cluster grows when you scale it to 3 nodes with:
+
+```bash
+$ kubectl scale sts axonserver -n test-ee --replicas=3
+statefulset.apps/axonserver scaled
+$
+```
