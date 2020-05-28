@@ -34,8 +34,8 @@ spec:
         fsGroup: 1001
       containers:
       - name: axonserver
-        image: axoniq/axonserver-ee:4.3.4
-        imagePullPolicy: Always
+        image: axonserver-ee:running
+        imagePullPolicy: IfNotPresent
         ports:
         - name: grpc
           containerPort: 8124
