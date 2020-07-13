@@ -12,6 +12,8 @@ services:
         target: /axonserver/config/axoniq.license
       - source: axonserver-properties
         target: /axonserver/config/axonserver.properties
+      - source: axonserver-token
+        target: /axonserver/config/axonserver.token
     environment:
       - AXONIQ_LICENSE=/axonserver/config/axoniq.license
     ports:
@@ -33,6 +35,8 @@ services:
         target: /axonserver/config/axoniq.license
       - source: axonserver-properties
         target: /axonserver/config/axonserver.properties
+      - source: axonserver-token
+        target: /axonserver/config/axonserver.token
     environment:
       - AXONIQ_LICENSE=/axonserver/config/axoniq.license
     ports:
@@ -54,6 +58,8 @@ services:
         target: /axonserver/config/axoniq.license
       - source: axonserver-properties
         target: /axonserver/config/axonserver.properties
+      - source: axonserver-token
+        target: /axonserver/config/axonserver.token
     environment:
       - AXONIQ_LICENSE=/axonserver/config/axoniq.license
     ports:

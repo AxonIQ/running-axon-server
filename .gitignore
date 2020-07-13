@@ -22,3 +22,6 @@ tls.crt
 tls.key
 tls.p12
 *.log
+*.db
+**/default
+**/_admin
