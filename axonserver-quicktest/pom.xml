@@ -24,7 +24,7 @@
     </parent>
     <groupId>io.axoniq.testing</groupId>
     <artifactId>axonserver-quicktest</artifactId>
-    <version>4.3-SNAPSHOT</version>
+    <version>4.4-SNAPSHOT</version>
     <name>axonserver-quicktest</name>
     <description>A minimal and autonomous tester for Axon Server</description>
 
@@ -35,7 +35,7 @@
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <jib-maven-plugin.version>2.2.0</jib-maven-plugin.version>
 
-        <axon.version>4.3.3</axon.version>
+        <axon.version>4.4.1</axon.version>
         <jackson-version>2.10.3</jackson-version>
         <jackson-jsr-version>2.10.3</jackson-jsr-version>
     </properties>
