@@ -146,7 +146,7 @@
                             <skip>false</skip>
                             <to>
                                 <image>axonserver-quicktest:${project.version}</image>
-                                <credHelper>gcr</credHelper>
+                                <!-- <credHelper>gcr</credHelper> -->
                             </to>
                         </configuration>
 
