@@ -33,7 +33,7 @@
 
         <spring-boot-maven-plugin.version>2.2.6.RELEASE</spring-boot-maven-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <jib-maven-plugin.version>2.2.0</jib-maven-plugin.version>
+        <jib-maven-plugin.version>2.5.1</jib-maven-plugin.version>
 
         <axon.version>4.4.1</axon.version>
         <jackson-version>2.10.3</jackson-version>
