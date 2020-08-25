@@ -1,5 +1,6 @@
 # Ignore Axon Server JAR files
 axonserver*.jar
+quicktest-*.jar
 axoniq.license
 
 # Ignore Maven build results
