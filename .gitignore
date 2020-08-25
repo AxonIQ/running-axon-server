@@ -1,7 +1,5 @@
 # Ignore Axon Server JAR files
-axonserver.jar
-axonserver-cli.jar
-axonserver-ee.jar
+axonserver*.jar
 axoniq.license
 
 # Ignore Maven build results
@@ -17,10 +15,11 @@ AxonIQ.pid
 
 # Generated/test files
 .token
-tls.csr
-tls.crt
-tls.key
-tls.p12
+*.csr
+*.srl
+*.crt
+*.key
+*.p12
 *.log
 *.db
 **/default
