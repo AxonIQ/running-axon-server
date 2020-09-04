@@ -17,12 +17,15 @@
 if [[ $# != 1 ]] ; then
     echo "Usage: $0 <node-name>"
     exit 1
-elif [ ! -d $1 ] ; then
-    echo "No directory for node \"$1\" found."
-    exit 1
 fi
 
 NODE_NAME=$1
+NODE_NR=$(echo ${NODE_NAME} | sed -e 's/^.*-\([[:digit:]]*\)$/\1/')
+
+if [ ! -d ${NODE_NAME} ] ; then
+    echo "Creating directory for node \"${NODE_NAME}\"."
+    mkdir ${NODE_NAME}
+fi
 
 if [[ "${NODE_NAME}" == "node-1" ]] ; then
     LICENSE_FILE=axoniq.license
@@ -32,5 +35,19 @@ if [[ "${NODE_NAME}" == "node-1" ]] ; then
     fi
 fi
 
-cd ./${NODE_NAME}
-java -jar ../../../axonserver-ee.jar
+cd ${NODE_NAME}
+PROPS=./axonserver.properties
+if [ ! -s ${PROPS} ] ; then
+    echo "Creating property file for node \"${NODE_NAME}\"."
+    (
+        echo "axoniq.axonserver.name=${NODE_NAME}"
+        echo "axoniq.axonserver.hostname=localhost"
+        echo "server.port=$(expr 8023 + ${NODE_NR})"
+        echo "axoniq.axonserver.port=$(expr 8123 + ${NODE_NR})"
+        echo "axoniq.axonserver.internal-port=$(expr 8223 + ${NODE_NR})"
+        echo "axoniq.axonserver.autocluster.first=localhost"
+        echo "axoniq.axonserver.autocluster.contexts=_admin"
+    ) >> ${PROPS}
+fi
+
+AXONIQ_LICENSE=../../../axoniq.license nohup java -jar ../../../axonserver-ee.jar >>./axonserver.log 2>&1 &
