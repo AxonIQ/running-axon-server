@@ -31,7 +31,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
+import java.util.*;
+
+import static java.util.Arrays.asList;
 
 @SpringBootApplication
 public class QuickTesterApplication {
@@ -53,10 +55,24 @@ public class QuickTesterApplication {
     @Value("${ms-delay:20000}")
     private long delay;
 
+    @Value("${spring.profiles.active:default}")
+    private String profiles;
+    private Set<String> profileSet = null;
+
+    private boolean isProfileActive(final String profile) {
+        if (profileSet == null) {
+            profileSet = new HashSet<>(asList(profiles.split(",")));
+        }
+
+        return profileSet.contains(profile);
+    }
+
     @Bean
     public CommandLineRunner getRunner(CommandGateway gwy) {
         return (args) -> {
+            if (!isProfileActive("listen-only")) {
             gwy.send(new TestCommand("QuickTesterApplication.getRunner", getMessage()));
+            }
             Thread.sleep(delay);
             SpringApplication.exit(ctx);
         };

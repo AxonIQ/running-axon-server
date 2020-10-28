@@ -22,5 +22,15 @@ elif [ ! -d $1 ] ; then
     exit 1
 fi
 
-cd $1
-AXONIQ_LICENSE=../../../axoniq.license nohup java -jar ../../../axonserver-ee.jar >/dev/null 2>&1 &
+NODE_NAME=$1
+
+if [[ "${NODE_NAME}" == "node-1" ]] ; then
+    LICENSE_FILE=axoniq.license
+    if [ ! -s ${NODE_NAME}/${LICENSE_FILE} -a -s ../../${LICENSE_FILE} ] ; then
+        echo "Adding license file to node workdir."
+        cp ../../${LICENSE_FILE} ./${NODE_NAME}/
+    fi
+fi
+
+cd ./${NODE_NAME}
+java -jar ../../../axonserver-ee.jar

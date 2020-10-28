@@ -14,6 +14,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-for i in node-1 node-2 node-3 ; do
-    rm -rf ${i}/{data,log} ${i}/AxonIQ.pid
+for i in node-* ; do
+    rm -rf ${i}/{data,log} ${i}/AxonIQ.pid ${i}/axonserver.log ${i}/axoniq.license
 done
