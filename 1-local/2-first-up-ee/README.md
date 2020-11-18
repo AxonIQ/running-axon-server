@@ -33,7 +33,7 @@ $ ./startup-bg.sh node-1
 ```
 or, start a whole cluster at once:
 ```bash
-$ for i in $(seq 5) ; do ./startup-bg.sh node-${i} ; done
+$ for i in $(seq 3) ; do ./startup-bg.sh node-${i} ; done
 ```
 
 The properties files in these three directories use only a few settings:
@@ -45,5 +45,5 @@ The properties files in these three directories use only a few settings:
 
 To stop the cluster, either use Control-C in all three shells, or run `shutdown.sh` in a separate shell three times. It will use the PID file to determine which process to kill. `cleanup.sh` will do so in all three directories. Because trying to stop a node that isn't running will simply skip the action, you could use the following to "clean up" in bulk:
 ```bash
-$ for i in $(seq 5) ; do ./shutdown.sh node-${i} ; done ; ./cleanup.sh ; rm */axonserver.log
+$ for i in $(seq 3) ; do ./shutdown.sh node-${i} ; done ; ./cleanup.sh ; rm */axonserver.log
 ```
