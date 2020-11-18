@@ -14,8 +14,19 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+VERSION=ee
+if [ $# -gt 2 ] ; then
+    if [[ "$1" == "--version" ]] ; then
+        VERSION=$2
+        shift 2
+    else
+        echo "Unknown option: \"$1\"."
+        echo "Usage: $0 [--version <version>] <node-name>"
+        exit 1
+    fi
+fi
 if [[ $# != 1 ]] ; then
-    echo "Usage: $0 <node-name>"
+    echo "Usage: $0 [--version <version>] <node-name>"
     exit 1
 elif [ ! -d $1 ] ; then
     echo "No directory for node \"$1\" found."
@@ -33,4 +44,4 @@ if [[ "${NODE_NAME}" == "node-1" ]] ; then
 fi
 
 cd ./${NODE_NAME}
-java -jar ../../../axonserver-ee.jar
+java -jar ../../../axonserver-${VERSION}.jar

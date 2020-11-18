@@ -14,8 +14,19 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+VERSION=ee
+if [ $# -gt 2 ] ; then
+    if [[ "$1" == "--version" ]] ; then
+        VERSION=$2
+        shift 2
+    else
+        echo "Unknown option: \"$1\"."
+        echo "Usage: $0 [--version <version>] <node-name>"
+        exit 1
+    fi
+fi
 if [[ $# != 1 ]] ; then
-    echo "Usage: $0 <node-name>"
+    echo "Usage: $0 [--version <version>] <node-name>"
     exit 1
 fi
 
@@ -50,4 +61,4 @@ if [ ! -s ${PROPS} ] ; then
     ) >> ${PROPS}
 fi
 
-AXONIQ_LICENSE=../../../axoniq.license nohup java -jar ../../../axonserver-ee.jar >>./axonserver.log 2>&1 &
+AXONIQ_LICENSE=../../../axoniq.license nohup java -jar ../../../axonserver-${VERSION}.jar >>./axonserver.log 2>&1 &
