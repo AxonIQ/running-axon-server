@@ -26,7 +26,7 @@ spec:
   selector:
     app: axonserver
   type: LoadBalancer
-  # sessionAffinity: ClientIP
+  sessionAffinity: ClientIP
 ---
 apiVersion: v1
 kind: Service
