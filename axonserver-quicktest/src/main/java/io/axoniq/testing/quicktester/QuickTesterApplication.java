@@ -14,16 +14,9 @@
  */
 package io.axoniq.testing.quicktester;
 
+import io.axoniq.testing.quicktester.config.SpringProfiles;
 import io.axoniq.testing.quicktester.msg.TestCommand;
-import org.axonframework.axonserver.connector.AxonServerConfiguration;
-import org.axonframework.axonserver.connector.AxonServerConnectionManager;
-import org.axonframework.axonserver.connector.command.AxonServerCommandBus;
-import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.SimpleCommandBus;
-import org.axonframework.commandhandling.distributed.AnnotationRoutingStrategy;
-import org.axonframework.commandhandling.distributed.UnresolvedRoutingKeyPolicy;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.serialization.Serializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,9 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import java.util.*;
-
-import static java.util.Arrays.asList;
+import java.util.Date;
 
 @SpringBootApplication
 public class QuickTesterApplication {
@@ -55,23 +46,11 @@ public class QuickTesterApplication {
     @Value("${ms-delay:20000}")
     private long delay;
 
-    @Value("${spring.profiles.active:default}")
-    private String profiles;
-    private Set<String> profileSet = null;
-
-    private boolean isProfileActive(final String profile) {
-        if (profileSet == null) {
-            profileSet = new HashSet<>(asList(profiles.split(",")));
-        }
-
-        return profileSet.contains(profile);
-    }
-
     @Bean
-    public CommandLineRunner getRunner(CommandGateway gwy) {
-        return (args) -> {
-            if (!isProfileActive("listen-only")) {
-            gwy.send(new TestCommand("QuickTesterApplication.getRunner", getMessage()));
+    public CommandLineRunner getRunner(CommandGateway gwy, SpringProfiles profiles) {
+        return args -> {
+            if (!profiles.isActive("listen-only")) {
+                gwy.send(new TestCommand("QuickTesterApplication.getRunner", getMessage()));
             }
             Thread.sleep(delay);
             SpringApplication.exit(ctx);
