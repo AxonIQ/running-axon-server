@@ -15,5 +15,5 @@
 #    limitations under the License.
 
 for i in node-* ; do
-    rm -rf ${i}/{data,log} ${i}/AxonIQ.pid ${i}/axonserver.log ${i}/axoniq.license
+    rm -rf ${i}/{data,log,security,plugins} ${i}/AxonIQ.pid ${i}/axonserver.log ${i}/axoniq.license
 done
