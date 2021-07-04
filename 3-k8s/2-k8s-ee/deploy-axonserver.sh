@@ -33,14 +33,23 @@ done
 echo ""
 echo "Creating Namespace if needed"
 echo ""
-kubectl create ns test-ee --dry-run=client -o yaml | kubectl apply -f -
+kubectl create ns ${NS_NAME} --dry-run=client -o yaml | kubectl apply -f -
 
 echo ""
 echo "Creating/updating Secrets and ConfigMap"
 echo ""
-kubectl create secret generic axonserver-license --from-file=../../axoniq.license -n ${NS_NAME} --dry-run=client -o yaml | kubectl apply -f -
-kubectl create secret generic axonserver-token --from-file=../../axonserver.token -n ${NS_NAME} --dry-run=client -o yaml | kubectl apply -f -
-kubectl create configmap axonserver-properties --from-file=axonserver.properties -n ${NS_NAME} --dry-run=client -o yaml | kubectl apply -f -
+for f in ../../axoniq.license ../../axonserver.token ; do
+    secret=$(basename ${f} | tr '.' '-')
+    descriptor=${secret}.yml
+    kubectl create secret generic ${secret} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
+    kubectl apply -f ${descriptor} -n ${NS_NAME} 
+done
+for f in axonserver.properties ; do
+    cfg=$(basename ${f} | tr '.' '-')
+    descriptor=${cfg}.yml
+    kubectl create configmap ${cfg} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
+    kubectl apply -f ${descriptor} -n ${NS_NAME} 
+done
 
 echo ""
 echo "Deploying/updating StatefulSet"

@@ -17,3 +17,4 @@
 for src in *.tmpl ; do
     rm $(basename ${src} .tmpl)
 done
+rm *.yml
