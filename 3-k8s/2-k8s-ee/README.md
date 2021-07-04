@@ -14,44 +14,68 @@
 
 ## Running Axon Server EE in Kubernetes
 
-**Note** We at AxonIQ are aware that many of our customners run Axon Server in Kubernetes or want to run it there.
-The files in this directory are to help you on your way, but there are so many things you might want to tune, that we do
-not want to present this as **the definitive best way.**
+**Note** We at AxonIQ are aware that many of our customners run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way, but be advised that a single `StatefulSet` for a cluster is **not** the recommended way for a production deployment. For more information, please [read this article](https://axoniq.io/blog-overview/revisiting-axon-server-in-containers).
 
-The `create-secrets.sh` script will generate de `axonserver.properties` ConfigMap, license secret, and system-token secret, given a service name and namespace.
+The `deploy-axonserver.sh` script will use the templates in this directory to generate de `axonserver.properties` ConfigMap, license secret, system-token secret, and all deployment descriptors, given a _service name_ and _Kubernetes namespace_.
 
 To deploy using a "`LoadBalancer`" service for the UI, use:
 
-```bash
-$ kubectl create ns test-ee
+```text
+$ ./deploy-axonserver.sh axonserver-enterprise test-ee
+Generating files
+
+Generating axonserver-ing.yml
+Generating axonserver-sts.yml
+Generating axonserver-svc.yml
+Generating axonserver.properties
+
+Creating Namespace if needed
+
 namespace/test-ee created
-$ ./create-secrets.sh axonserver test-ee
-secret/axonserver-license created
+
+Creating/updating Secrets and ConfigMap
+
+secret/axoniq-license created
 secret/axonserver-token created
 configmap/axonserver-properties created
-$ kubectl apply -f axonserver-sts.yml -n test-ee
+
+Deploying/updating StatefulSet
+
 statefulset.apps/axonserver created
 $ kubectl apply -f axonserver-svc.yml -n test-ee
 service/axonserver-gui created
-service/axonserver created
+service/axonserver-enterprise created
 $ 
 ```
 
 To deploy with an Ingress, use:
 
 ```bash
-$ kubectl create ns test-ee
+$ ./deploy-axonserver.sh axonserver-enterprise test-ee
+Generating files
+
+Generating axonserver-ing.yml
+Generating axonserver-sts.yml
+Generating axonserver-svc.yml
+Generating axonserver.properties
+
+Creating Namespace if needed
+
 namespace/test-ee created
-$ ./create-secrets.sh axonserver test-ee
-secret/axonserver-license created
+
+Creating/updating Secrets and ConfigMap
+
+secret/axoniq-license created
 secret/axonserver-token created
 configmap/axonserver-properties created
-$ kubectl apply -f axonserver-sts.yml -n test-ee
+
+Deploying/updating StatefulSet
+
 statefulset.apps/axonserver created
 $ kubectl apply -f axonserver-ing.yml -n test-ee
 service/axonserver-gui created
 service/axonserver created
-ingress.networking.k8s.io/axonserver created
+ingress.networking.k8s.io/axonserver-enterprise created
 $ 
 ```
 
