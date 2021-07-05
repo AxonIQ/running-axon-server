@@ -19,7 +19,7 @@ metadata:
   labels:
     app: axonserver
 spec:
-  serviceName: axonserver
+  serviceName: __SVC_NAME__
   replicas: 1
   selector:
     matchLabels:
@@ -32,9 +32,10 @@ spec:
       securityContext:
         runAsUser: 1001
         fsGroup: 1001
+      terminationGracePeriodSeconds: 120
       containers:
       - name: axonserver
-        image: axonserver-ee:running
+        image: axoniq/axonserver-enterprise:4.5.5-dev-nonroot
         imagePullPolicy: IfNotPresent
         ports:
         - name: grpc
@@ -53,6 +54,8 @@ spec:
           mountPath: /axonserver/events
         - name: log
           mountPath: /axonserver/log
+        - name: plugins
+          mountPath: /axonserver/plugins
         - name: config
           mountPath: /axonserver/config
           readOnly: true
@@ -62,6 +65,14 @@ spec:
         - name: license
           mountPath: /axonserver/license
           readOnly: true
+        startupProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 110
         readinessProbe:
           httpGet:
             path: /actuator/info
@@ -105,6 +116,13 @@ spec:
             storage: 1Gi
     - metadata:
         name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: plugins
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:

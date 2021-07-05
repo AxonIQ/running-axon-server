@@ -45,6 +45,14 @@ spec:
           mountPath: /data
         - name: events
           mountPath: /eventdata
+        startupProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 110
         readinessProbe:
           httpGet:
             path: /actuator/info

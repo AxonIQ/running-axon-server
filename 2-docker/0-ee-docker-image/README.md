@@ -1,7 +1,37 @@
-## Building an Axon Server EE image
+## An Axon Server EE Docker image
 
-For Axon Server EE we need to build an image, as there is no public one. The `Dockerfile` used here expects the JAR files in the build directory, so I added a script to copy them from the base directory of this repo. It expects Axon Server EE to be in a file named "`axonserver-ee.jar`", and the CLI in a file named "`axonserver-cli.jar`".
+AxonIQ provides a ready to use [Axon Server EE image](https://hub.docker.com/r/axoniq/axonserver-enterprise) **for development and trial purposes**. There are two images available: one with Axon Server running as the user "`root`" and one with Axon Server running as user "`axonserver`". Both images are based on "debug" images from [Google's Distroless series](https://github.com/GoogleContainerTools/distroless), which means they include a (limited) shell that allows you to connect "into" the running image and perform some commands. Naturally you should not use these for production because of this, but they are perfect for development and test environments.
+
+* The "`root`" image of version 4.5.3 is available as "`axoniq/axonserver-enterprise:4.5.3-dev`" and is based on "`gcr.io/distroless/java:11-debug`". This image is particularly useful for running in Docker Desktop, as it will not have any trouble creating files and directories as user "`root`".
+* The "`axonserver`" image of version 4.5.3 is available as "`axoniq/axonserver-enterprise:4.5.3-dev-nonroot`" and is based on "`gcr.io/distroless/java:11-debug-nonroot`". This image is more secure and useful in Kubernetes and OpenShift clusters. You should take care to declare the user- and group-id, both of which are `1001` and are named "`axonserver`". Doing this will ensure that any mounted volumes will be writable by the user running Axon Server.
+
+Version 4.5.3 is the first version for which we have released these images, and later versions will follow. Please replace "4.5.3" in this page with the appropriate version number as needed. The images export the following volumes:
+
+* "`/axonserver/config`"
+
+  This where you can add configuration files, such as an additional `axonserver.properties` and the license file, although you can also opt to use e.g. Kubernetes or Docker-compose secrets. Note that Axon Server EE assumes it can write to the directory configured with "`axoniq.axonserver.enterprise.licenseDirectory`", so you don't have to put the license on all nodes.
+* "`/axonserver/data`"
+
+  This is where the ControlDB, the PID file, and a copy of the application logs are written to.
+* "`/axonserver/events`"
+
+  In this volume the Event Store is created, with a single directory per context.
+* "`/axonserver/log`"
+
+  In this volume the Replication Logs are created, with a single directory per Replication Group.
+* "`/axonserver/exts`"
+
+  In this volume you can place Extension JAR-files, such as the LDAP and OAuth2 extensions.
+* "`/axonserver/plugins`"
+
+  In this volume Axon Server will place all uploaded plugins.
+
+## Building you own Image
+
+**NOTE** The files in this directory are meant as an example and can be used as a base for your own solution. They are not intended to provide a ready-to-use, hardened solution, AxonIQ approved and supported for production use. The fact publishing of these files does in no way imply any warrenties.
+
+The `Dockerfile` used here expects the JAR files in the build directory, so I added a script to copy them from the base directory of this repository. It expects Axon Server EE to be in a file named "`axonserver-ee.jar`", and the CLI in a file named "`axonserver-cli.jar`".
 
 To build the image as "`axonserver-ee:running`", just run "`./build-image.sh`". For a custom tag, pass it as parameter, e.g. "`./build-image.sh repo/image:version`".
 
-**Note** This `Dockerfile` already includes both the use of username "axonserver" and user-id `1001`.
+**Note** This `Dockerfile` already includes both the use of username "axonserver" and user-id `1001`, just like in the public "nonroot" image.

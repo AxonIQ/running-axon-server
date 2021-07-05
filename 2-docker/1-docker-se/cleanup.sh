@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -rf ./data/*.* ./events/default
+rm -rf ./data/*.* ./data/plugins ./events/default

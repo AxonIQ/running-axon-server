@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   axonserver-1:
-    image: axonserver-ee:running
+    image: axoniq/axonserver-enterprise:4.5.3-dev
     hostname: axonserver-1
     volumes:
       - axonserver-data1:/axonserver/data
@@ -24,7 +24,7 @@ services:
       - axon-demo
 
   axonserver-2:
-    image: axonserver-ee:running
+    image: axoniq/axonserver-enterprise:4.5.3-dev
     hostname: axonserver-2
     volumes:
       - axonserver-data2:/axonserver/data
@@ -47,7 +47,7 @@ services:
       - axon-demo
 
   axonserver-3:
-    image: axonserver-ee:running
+    image: axoniq/axonserver-enterprise:4.5.3-dev
     hostname: axonserver-3
     volumes:
       - axonserver-data3:/axonserver/data
