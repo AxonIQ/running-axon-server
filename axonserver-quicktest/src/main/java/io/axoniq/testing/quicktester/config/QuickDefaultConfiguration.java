@@ -16,19 +16,14 @@ package io.axoniq.testing.quicktester.config;
 
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.SimpleCommandBus;
-import org.axonframework.commandhandling.distributed.AnnotationRoutingStrategy;
-import org.axonframework.commandhandling.distributed.UnresolvedRoutingKeyPolicy;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventhandling.SimpleEventBus;
-import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
-import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.eventsourcing.eventstore.inmemory.InMemoryEventStorageEngine;
 import org.axonframework.queryhandling.QueryBus;
 import org.axonframework.queryhandling.SimpleQueryBus;
-import org.axonframework.spring.config.AxonConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -47,8 +42,6 @@ public class QuickDefaultConfiguration {
     public CommandBus commandBus() {
         log.info("Setting up routing policy on a SimpleCommandBus.");
 
-        AnnotationRoutingStrategy strategy = new AnnotationRoutingStrategy(UnresolvedRoutingKeyPolicy.RANDOM_KEY);
-
         return SimpleCommandBus.builder()
                 .build();
     }
@@ -59,14 +52,6 @@ public class QuickDefaultConfiguration {
                 .commandBus(commandBus)
                 .build();
     }
-
-//    @Bean
-//    public EmbeddedEventStore eventStore(EventStorageEngine storageEngine, AxonConfiguration configuration) {
-//        return EmbeddedEventStore.builder()
-//                .storageEngine(storageEngine)
-//                .messageMonitor(configuration.messageMonitor(EventStore.class, "eventStore"))
-//                .build();
-//    }
 
     @Bean
     public EventStorageEngine storageEngine() {

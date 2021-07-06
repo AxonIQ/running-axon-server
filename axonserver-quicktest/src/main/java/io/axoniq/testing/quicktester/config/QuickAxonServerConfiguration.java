@@ -49,7 +49,9 @@ public class QuickAxonServerConfiguration {
                                  SpringProfiles profiles) {
         log.info("Setting up routing policy on a AxonServerCommandBus.");
 
-        AnnotationRoutingStrategy strategy = new AnnotationRoutingStrategy(UnresolvedRoutingKeyPolicy.RANDOM_KEY);
+        AnnotationRoutingStrategy strategy = AnnotationRoutingStrategy.builder()
+                .fallbackRoutingStrategy(UnresolvedRoutingKeyPolicy.RANDOM_KEY)
+                .build();
 
         final AxonServerCommandBus bus = AxonServerCommandBus.builder()
                 .axonServerConnectionManager(connectionManager)
@@ -61,11 +63,11 @@ public class QuickAxonServerConfiguration {
 
         if (profiles.isActive("tagged")) {
             if ((tagString != null) && !tagString.isEmpty()) {
-                for (String tag: tagString.split(",")) {
+                for (String tag : tagString.split(",")) {
                     log.info("Adding tag '{}'", tag);
                     int index = tag.indexOf('=');
                     if (index != -1) {
-                        commandTags.put(tag.substring(0, index), tag.substring(index+1));
+                        commandTags.put(tag.substring(0, index), tag.substring(index + 1));
                     } else {
                         commandTags.put(tag, "");
                     }
