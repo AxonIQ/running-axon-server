@@ -1,0 +1,159 @@
+#    Copyright 2020 AxonIQ B.V.
+
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+
+#        http://www.apache.org/licenses/LICENSE-2.0
+
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: __STS_NAME__
+  labels:
+    app: __STS_NAME__
+    cluster: __CLUSTER_NAME__
+spec:
+  serviceName: __STS_NAME__
+  replicas: 1
+  selector:
+    matchLabels:
+      app: __STS_NAME__
+      cluster: __CLUSTER_NAME__
+  template:
+    metadata:
+      labels:
+        app: __STS_NAME__
+        cluster: __CLUSTER_NAME__
+    spec:
+      securityContext:
+        runAsUser: 1001
+        fsGroup: 1001
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: __STS_NAME__
+        image: axoniq/axonserver-enterprise:4.5.5-dev-nonroot
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: gui
+          containerPort: 8024
+          protocol: TCP
+        - name: client-grpc
+          containerPort: 8124
+          protocol: TCP
+        - name: internal-grpc
+          containerPort: 8224
+          protocol: TCP
+        env:
+        - name: AXONIQ_AXONSERVER_NAME
+          value: __STS_NAME__
+        - name: AXONIQ_AXONSERVER_HOSTNAME
+          value: __STS_NAME__
+        volumeMounts:
+        - name: data
+          mountPath: /axonserver/data
+        - name: events
+          mountPath: /axonserver/events
+        - name: log
+          mountPath: /axonserver/log
+        - name: plugins
+          mountPath: /axonserver/plugins
+        - name: config
+          mountPath: /axonserver/config
+          readOnly: true
+        - name: system-token
+          mountPath: /axonserver/security
+          readOnly: true
+        - name: license
+          mountPath: /axonserver/license
+          readOnly: true
+        startupProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 110
+        readinessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+      volumes:
+        - name: config
+          configMap:
+            name: axonserver-properties
+        - name: system-token
+          secret:
+            secretName: axonserver-token
+        - name: license
+          secret:
+            secretName: axoniq-license
+  volumeClaimTemplates:
+    - metadata:
+        name: events
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+    - metadata:
+        name: log
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: plugins
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: __STS_NAME__
+  labels:
+    app: __STS_NAME__
+    cluster: __CLUSTER_NAME__
+spec:
+  ports:
+  - name: client-grpc
+    port: 8124
+    targetPort: 8124
+  - name: internal-grpc
+    port: 8224
+    targetPort: 8224
+  clusterIP: None
+  selector:
+    app: __STS_NAME__
+    cluster: __CLUSTER_NAME__
+---
