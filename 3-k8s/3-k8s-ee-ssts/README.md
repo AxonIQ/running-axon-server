@@ -12,11 +12,11 @@
    See the License for the specific language governing permissions and
    limitations under the License. -->
 
-## Running Axon Server EE in Kubernetes using Singleton StatefulSets
+# Running Axon Server EE in Kubernetes using Singleton StatefulSets
 
 **Note** We at AxonIQ are aware that many of our customners run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way with developing a deployment plan based on "Singleton StatefulSets". For more information, please [read this article](https://axoniq.io/blog-overview/revisiting-axon-server-in-containers).
 
-### Deployment Plan
+## Deployment Plan
 
 The deployment plan for the files in this directory is as follows:
 
@@ -42,7 +42,7 @@ The nodes will be named "`axonserver-1`", "`axonserver-2`", and "`axonserver-3`"
 | axonserver-3 | axonserver-3-0 | axonserver-3 | axonserver-3.running-ee.svc.cluster.local |
 
 
-### How to deploy
+## How to deploy
 
 First deploy the secrets and ConfigMap with:
 
@@ -116,7 +116,7 @@ Forwarding from 127.0.0.1:8024 -> 8024
 Forwarding from [::1]:8024 -> 8024
 ```
 
-### Testing the cluster
+## Testing the cluster
 
 Now we can access the node with the default URL of "http://localhost:8024" in the case of port forwarding, or on the LoadBalancer's public IP otherwise, to create an admin user:
 
@@ -149,3 +149,7 @@ The example above:
 2. Passes a list containing all three nodes to the client, so if one if unavailable it will try the next one
 3. Passes the token that the UI gave
 4. Sets the Quick Tester's profile to "`axonserver`", so it will not use a in-memory eventstore but actually connect to Axon Server.
+
+## Cleaning up
+
+The script "`cleanup.sh`" will remove all files generated from the tamplates. To delete the cluster you can just run "`kubectl delete ns running-ee`".
