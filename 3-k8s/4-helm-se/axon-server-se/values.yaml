@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: axoniq/axonserver
+  repository: axoniq/axonserver:4.5.3
   pullPolicy: IfNotPresent
   # Don't override default
   #tag: ""

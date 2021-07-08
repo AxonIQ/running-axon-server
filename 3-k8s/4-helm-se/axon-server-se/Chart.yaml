@@ -15,12 +15,12 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 4.3.3-SNAPSHOT
+version: 4.5.3-SNAPSHOT
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 4.3.3
+appVersion: 4.5.3
 
 icon: 'https://avatars1.githubusercontent.com/u/29336451?s=200&v=4'
 home: https://github.com/AxonIQ/axon-server-se
