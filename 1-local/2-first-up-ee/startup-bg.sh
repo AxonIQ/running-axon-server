@@ -61,4 +61,4 @@ if [ ! -s ${PROPS} ] ; then
     ) >> ${PROPS}
 fi
 
-AXONIQ_LICENSE=../../../axoniq.license nohup java -jar ../../../axonserver-${VERSION}.jar >>./axonserver.log 2>&1 &
+nohup java -jar ../../../axonserver-${VERSION}.jar >>./axonserver.log 2>&1 &
