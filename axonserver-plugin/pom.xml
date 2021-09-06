@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.axoniq.axonserver.running</groupId>
+    <artifactId>axonserver-plugin</artifactId>
+    <version>4.5-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+
+        <axon.api.version>4.5</axon.api.version>
+        <osgi.version>6.0.0</osgi.version>
+        <protobuf.version>3.12.0</protobuf.version>
+
+        <!-- logging -->
+        <slf4j.version>1.7.31</slf4j.version>
+        <logback.version>1.2.3</logback.version>
+    </properties>
+
+    <dependencies>
+        <!-- Dependency on the axonserver-plugin-api as this contains all the plugin interfaces,
+             provided as it should not be included in the output bundle -->
+        <dependency>
+            <groupId>io.axoniq</groupId>
+            <artifactId>axonserver-plugin-api</artifactId>
+            <version>${axon.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Access to the OSGI classes,
+             provided as it should not be included in the output bundle -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>${osgi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Logging lib -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>5.1.2</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <!-- import the packages exposed by the plugin api and the Axon Server message types -->
+                        <Import-Package>
+                            io.axoniq.axonserver.plugin.*;
+                            io.axoniq.axonserver.grpc.*;
+                            com.google.protobuf.*;
+                            org.osgi.framework;
+                            javax.xml.parsers.*;
+                            org.xml.sax.*;
+                            javax.naming.*;
+                            javax.net.*;
+                            javax.xml.*;
+                        </Import-Package>
+
+                        <!-- internal packages for the bundle -->
+                        <Private-Package>io.axoniq.axonserver.running.plugin.*</Private-Package>
+                        <!-- references the BundleActivator class -->
+                        <Bundle-Activator>io.axoniq.axonserver.running.plugin.PluginActivator</Bundle-Activator>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
