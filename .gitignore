@@ -25,3 +25,4 @@ AxonIQ.pid
 *.db
 **/default
 **/_admin
+*.yml

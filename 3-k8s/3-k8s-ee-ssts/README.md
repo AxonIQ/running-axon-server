@@ -47,7 +47,7 @@ The nodes will be named "`axonserver-1`", "`axonserver-2`", and "`axonserver-3`"
 First deploy the secrets and ConfigMap with:
 
 ```text
-$ ./deploy-secrets axonserver-1 running-ee
+$ ./deploy-secrets.sh axonserver-1 running-ee
 Generating files
 
 Generating axonserver.properties
