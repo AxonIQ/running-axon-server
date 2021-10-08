@@ -38,8 +38,15 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: __STS_NAME__
-        image: axoniq/axonserver-enterprise:4.5.8-dev-nonroot
+        image: axoniq/axonserver-enterprise:4.5.9-dev-nonroot
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "2"
+            memory: "12Gi"
+          requests:
+            cpu: "1"
+            memory: "8Gi"
         ports:
         - name: gui
           containerPort: 8024
