@@ -27,21 +27,6 @@ spec:
     app: axonserver
   type: ClusterIP
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: __SVC_NAME__
-  labels:
-    app: axonserver
-spec:
-  ports:
-  - name: grpc
-    port: 8124
-    targetPort: 8124
-  clusterIP: None
-  selector:
-    app: axonserver
----
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:

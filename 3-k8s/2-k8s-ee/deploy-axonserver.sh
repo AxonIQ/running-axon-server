@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-#    Copyright 2020 AxonIQ B.V.
+#    Copyright 2020,2021 AxonIQ B.V.
 
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -22,12 +22,24 @@ fi
 SVC_NAME=$1
 NS_NAME=$2
 
+BINDIR=../../bin
+
+SYSTEM_TOKEN_FILE=./axonserver.token
+INTERNAL_TOKEN_FILE=./axonserver.internal-token
+echo "Generating tokens"
+echo ""
+${BINDIR}/gen-token.sh ${SYSTEM_TOKEN_FILE}
+${BINDIR}/gen-token.sh ${INTERNAL_TOKEN_FILE}
+
+INTERNAL_TOKEN=$(cat ${INTERNAL_TOKEN_FILE})
 echo "Generating files"
 echo ""
 for src in *.tmpl ; do
     dst=$(basename ${src} .tmpl)
     echo "Generating ${dst}"
-    sed -e s/__SVC_NAME__/${SVC_NAME}/g -e s/__NS_NAME__/${NS_NAME}/g < ${src} > ${dst}
+    sed -e "s/__SVC_NAME__/${SVC_NAME}/g" \
+        -e "s/__NS_NAME__/${NS_NAME}/g" \
+        -e "s/__INTERNAL_TOKEN__/${INTERNAL_TOKEN}/g" < ${src} > ${dst}
 done
 
 echo ""
@@ -38,12 +50,13 @@ kubectl create ns ${NS_NAME} --dry-run=client -o yaml | kubectl apply -f -
 echo ""
 echo "Creating/updating Secrets and ConfigMap"
 echo ""
-for f in ../../axoniq.license ../../axonserver.token ; do
+for f in ../../axoniq.license ${SYSTEM_TOKEN_FILE} ; do
     secret=$(basename ${f} | tr '.' '-')
     descriptor=${secret}.yml
     kubectl create secret generic ${secret} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
     kubectl apply -f ${descriptor} -n ${NS_NAME} 
 done
+
 for f in axonserver.properties ; do
     cfg=$(basename ${f} | tr '.' '-')
     descriptor=${cfg}.yml

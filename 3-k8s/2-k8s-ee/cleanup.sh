@@ -15,6 +15,6 @@
 #    limitations under the License.
 
 for src in *.tmpl ; do
-    rm $(basename ${src} .tmpl)
+    rm -f $(basename ${src} .tmpl)
 done
-rm *.yml
+rm -rf *.yml axonserver.token axonserver.internal-token ssl

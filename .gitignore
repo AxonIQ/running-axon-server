@@ -26,5 +26,6 @@ AxonIQ.pid
 **/default
 **/_admin
 *.yml
-3-k8s/4-k8s-ee-ssts-tls/axonserver.internal-token
-3-k8s/4-k8s-ee-ssts-tls/axonserver.token
+
+axonserver.internal-token
+axonserver.token

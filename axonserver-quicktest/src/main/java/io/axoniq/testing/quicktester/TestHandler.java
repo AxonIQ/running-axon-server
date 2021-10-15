@@ -19,6 +19,7 @@ import io.axoniq.testing.quicktester.msg.TestEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventhandling.gateway.EventGateway;
+import org.axonframework.messaging.MetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -44,7 +45,8 @@ public class TestHandler {
     }
 
     @EventHandler
-    public void processEvent(TestEvent evt) {
+    public void processEvent(TestEvent evt, MetaData metaData) {
+        if (metaData.containsKey("Intercepted") && Boolean.TRUE.equals(metaData.get("Intercepted")))
         log.info("handleEvent(): msg = \"{}\".", evt.getMsg());
     }
 }

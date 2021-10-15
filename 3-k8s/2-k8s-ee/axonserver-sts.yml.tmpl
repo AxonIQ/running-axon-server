@@ -11,7 +11,7 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -35,14 +35,24 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: axonserver
-        image: axoniq/axonserver-enterprise:4.5.8-dev-nonroot
+        image: axoniq/axonserver-enterprise:4.5.9-dev-nonroot
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "2"
+            memory: "12Gi"
+          requests:
+            cpu: "1"
+            memory: "8Gi"
         ports:
-        - name: grpc
-          containerPort: 8124
-          protocol: TCP
         - name: gui
           containerPort: 8024
+          protocol: TCP
+        - name: client-grpc
+          containerPort: 8124
+          protocol: TCP
+        - name: internal-grpc
+          containerPort: 8224
           protocol: TCP
         env:
         - name: AXONIQ_LICENSE
@@ -128,3 +138,22 @@ spec:
         resources:
           requests:
             storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: __SVC_NAME__
+  labels:
+    app: axonserver
+spec:
+  ports:
+  - name: client-grpc
+    port: 8124
+    targetPort: 8124
+  - name: internal-grpc
+    port: 8224
+    targetPort: 8224
+  clusterIP: None
+  selector:
+    app: axonserver
+---
