@@ -53,14 +53,14 @@ echo ""
 for f in ../../axoniq.license ${SYSTEM_TOKEN_FILE} ; do
     secret=$(basename ${f} | tr '.' '-')
     descriptor=${secret}.yml
-    kubectl create secret generic ${secret} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
+    kubectl create secret generic ${secret} --from-file=${f} --dry-run -o yaml > ${descriptor}
     kubectl apply -f ${descriptor} -n ${NS_NAME} 
 done
 
 for f in axonserver.properties ; do
     cfg=$(basename ${f} | tr '.' '-')
     descriptor=${cfg}.yml
-    kubectl create configmap ${cfg} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
+    kubectl create configmap ${cfg} --from-file=${f} --dry-run -o yaml > ${descriptor}
     kubectl apply -f ${descriptor} -n ${NS_NAME} 
 done
 

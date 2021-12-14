@@ -30,7 +30,7 @@ Usage () {
     exit 1
 }
 
-options=$(getopt -l 'first:,namespace:,domain:' -- 'n:d:' "$@")
+options=$(getopt -l 'first:,first-ns:,namespace:,domain:' -- 'n:d:' "$@")
 [ $? -eq 0 ] || {
     Usage
 }
@@ -85,7 +85,7 @@ done
 echo ""
 echo "Creating Namespace if needed"
 echo ""
-kubectl create ns ${NS_NAME} --dry-run=client -o yaml | kubectl apply -f -
+kubectl create ns ${NS_NAME} --dry-run -o yaml | kubectl apply -f -
 
 echo ""
 echo "Creating/updating other Secrets and ConfigMap"
@@ -94,13 +94,13 @@ echo ""
 for f in ../../axoniq.license ${SYSTEM_TOKEN_FILE} ; do
     secret=$(basename ${f} | tr '.' '-')
     descriptor=${secret}.yml
-    kubectl create secret generic ${secret} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
+    kubectl create secret generic ${secret} --from-file=${f} --dry-run -o yaml > ${descriptor}
     kubectl apply -f ${descriptor} -n ${NS_NAME} 
 done
 
 for f in axonserver.properties ; do
     cfg=$(basename ${f} | tr '.' '-')
     descriptor=${cfg}.yml
-    kubectl create configmap ${cfg} --from-file=${f} --dry-run=client -o yaml > ${descriptor}
+    kubectl create configmap ${cfg} --from-file=${f} --dry-run -o yaml > ${descriptor}
     kubectl apply -f ${descriptor} -n ${NS_NAME} 
 done

@@ -1,5 +1,8 @@
 # Any YAML files here are generated...
 *.yml
 
+# Token files are also generated.
+*.token
+
 # As is the properties file
 axonserver.properties
