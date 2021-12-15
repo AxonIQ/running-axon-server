@@ -36,7 +36,7 @@
         <jib-maven-plugin.version>2.5.1</jib-maven-plugin.version>
 
         <axon.version>4.5.5</axon.version>
-        <netty.version>4.1.63.Final</netty.version>
+        <netty.version>4.1.68.Final</netty.version>
         <jackson-version>2.10.3</jackson-version>
         <jackson-jsr-version>2.10.3</jackson-jsr-version>
     </properties>
