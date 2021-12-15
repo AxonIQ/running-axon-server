@@ -39,14 +39,17 @@ public class TestHandler {
 
     @CommandHandler
     public void processCommand(TestCommand cmd) {
-        log.info("handleCommand(): src = \"{}\", msg = \"{}\".", cmd.getSrc(), cmd.getMsg());
+        log.info("handleCommand(): src = '{}', msg = '{}'.", cmd.getSrc(), cmd.getMsg());
 
         evtGwy.publish(new TestEvent(cmd.getSrc() + " says: " + cmd.getMsg()));
     }
 
     @EventHandler
     public void processEvent(TestEvent evt, MetaData metaData) {
-        if (metaData.containsKey("Intercepted") && Boolean.TRUE.equals(metaData.get("Intercepted")))
-        log.info("handleEvent(): msg = \"{}\".", evt.getMsg());
+        if (metaData.containsKey("Intercepted") && Boolean.TRUE.equals(metaData.get("Intercepted"))) {
+            log.info("handleEvent(): INTERCEPTED msg = '{}'.", evt.getMsg());
+        } else {
+            log.info("handleEvent(): msg = '{}'.", evt.getMsg());
+        }
     }
 }
