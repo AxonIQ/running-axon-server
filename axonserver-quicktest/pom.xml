@@ -36,6 +36,7 @@
         <jib-maven-plugin.version>2.5.1</jib-maven-plugin.version>
 
         <axon.version>4.5.5</axon.version>
+        <netty.version>4.1.63.Final</netty.version>
         <jackson-version>2.10.3</jackson-version>
         <jackson-jsr-version>2.10.3</jackson-jsr-version>
     </properties>
@@ -62,6 +63,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec</artifactId>
+            <version>${netty.version}</version>
         </dependency>
 
         <!-- Due to a security finding in version 2.9.10.x, we force 2.10.3 -->
