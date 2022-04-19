@@ -38,7 +38,7 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: __STS_NAME__
-        image: axoniq/axonserver-enterprise:4.5.9-dev-nonroot
+        image: axoniq/axonserver-enterprise:latest-dev-nonroot
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -199,9 +199,11 @@ spec:
   - name: client-grpc
     port: 8124
     targetPort: 8124
+    appProtocol: tls
   - name: internal-grpc
     port: 8224
     targetPort: 8224
+    appProtocol: tls
   clusterIP: None
   selector:
     app: __STS_NAME__

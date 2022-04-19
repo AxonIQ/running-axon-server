@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#    Copyright 2021 AxonIQ B.V.
+#    Copyright 2020,2021 AxonIQ B.V.
 
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ Usage () {
     exit 1
 }
 
-options=$(getopt -l 'first:,namespace:,domain:' -- 'n:d:' "$@")
+options=$(getopt -l 'first:,first-ns:,namespace:,domain:' -- 'n:d:' "$@")
 [ $? -eq 0 ] || {
     Usage
 }
