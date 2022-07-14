@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   axonserver-1:
-    image: axoniq/axonserver-enterprise:4.5.3-dev
+    image: axoniq/axonserver-enterprise:latest-dev
     hostname: axonserver-1
     volumes:
       - type: bind
@@ -30,7 +30,7 @@ services:
       - axon-demo
 
   axonserver-2:
-    image: axoniq/axonserver-enterprise:4.5.3-dev
+    image: axoniq/axonserver-enterprise:latest-dev
     hostname: axonserver-2
     volumes:
       - type: bind
@@ -59,7 +59,7 @@ services:
       - axon-demo
 
   axonserver-3:
-    image: axoniq/axonserver-enterprise:4.5.3-dev
+    image: axoniq/axonserver-enterprise:latest-dev
     hostname: axonserver-3
     volumes:
       - type: bind
@@ -96,4 +96,4 @@ secrets:
   axoniq-license:
     file: ../../axoniq.license
   axonserver-token:
-    file: ../../axonserver.token
+    file: ./axonserver.token
