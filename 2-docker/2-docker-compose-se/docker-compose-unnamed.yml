@@ -6,10 +6,13 @@ services:
     volumes:
       - type: bind
         source: ./data
-        target: /data
+        target: /axonserver/data
       - type: bind
         source: ./events
-        target: /eventdata
+        target: /axonserver/events
+      - type: bind
+        source: ./plugins
+        target: /axonserver/plugins
       - type: bind
         source: ./config
         target: /config

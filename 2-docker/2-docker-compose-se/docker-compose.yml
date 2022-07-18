@@ -4,9 +4,10 @@ services:
     image: axoniq/axonserver:latest-dev
     hostname: axonserver
     volumes:
-      - axonserver-data:/data
-      - axonserver-events:/eventdata
-      - axonserver-config:/config:ro
+      - axonserver-data:/axonserver/data
+      - axonserver-events:/axonserver/events
+      - axonserver-plugins:/axonserver/plugins
+      - axonserver-config:/axonserver/config:ro
     ports:
       - '8024:8024'
       - '8124:8124'
@@ -27,6 +28,12 @@ volumes:
       o: bind
       type: none
       device: ${PWD}/events
+  axonserver-plugins:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/plugins
   axonserver-config:
     driver: local
     driver_opts:
