@@ -7,6 +7,7 @@ services:
       - axonserver-data1:/axonserver/data
       - axonserver-events1:/axonserver/events
       - axonserver-log1:/axonserver/log
+      - axonserver-plugins1:/axonserver/plugins
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -30,6 +31,7 @@ services:
       - axonserver-data2:/axonserver/data
       - axonserver-events2:/axonserver/events
       - axonserver-log2:/axonserver/log
+      - axonserver-plugins2:/axonserver/plugins
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -53,6 +55,7 @@ services:
       - axonserver-data3:/axonserver/data
       - axonserver-events3:/axonserver/events
       - axonserver-log3:/axonserver/log
+      - axonserver-plugins3:/axonserver/plugins
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -88,6 +91,12 @@ volumes:
       type: none
       device: ${PWD}/log1
       o: bind
+  axonserver-plugins1:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/plugins1
+      o: bind
   axonserver-data2:
     driver: local
     driver_opts:
@@ -106,6 +115,12 @@ volumes:
       type: none
       device: ${PWD}/log2
       o: bind
+  axonserver-plugins2:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/plugins2
+      o: bind
   axonserver-data3:
     driver: local
     driver_opts:
@@ -123,6 +138,12 @@ volumes:
     driver_opts:
       type: none
       device: ${PWD}/log3
+      o: bind
+  axonserver-plugins3:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/plugins3
       o: bind
 
 networks:

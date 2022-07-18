@@ -13,6 +13,9 @@ services:
       - type: bind
         source: ./log1
         target: /axonserver/log
+      - type: bind
+        source: ./plugins1
+        target: /axonserver/plugins
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -42,6 +45,9 @@ services:
       - type: bind
         source: ./log2
         target: /axonserver/log
+      - type: bind
+        source: ./plugins2
+        target: /axonserver/plugins
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
@@ -71,6 +77,9 @@ services:
       - type: bind
         source: ./log3
         target: /axonserver/log
+      - type: bind
+        source: ./plugins3
+        target: /axonserver/plugins
     secrets:
       - source: axoniq-license
         target: /axonserver/config/axoniq.license
