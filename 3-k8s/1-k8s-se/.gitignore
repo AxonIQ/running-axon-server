@@ -1,0 +1,8 @@
+# Any YAML file here is generated...
+*.yml
+
+# As is the properties file
+axonserver.properties
+
+# And everything in the ssl directory
+ssl/

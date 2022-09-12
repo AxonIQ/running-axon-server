@@ -1,0 +1,168 @@
+#    Copyright 2020 AxonIQ B.V.
+
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+
+#        http://www.apache.org/licenses/LICENSE-2.0
+
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: __STS_NAME__
+  labels:
+    app: __STS_NAME__
+spec:
+  serviceName: __STS_NAME__
+  replicas: 1
+  selector:
+    matchLabels:
+      app: __STS_NAME__
+  template:
+    metadata:
+      labels:
+        app: __STS_NAME__
+    spec:
+      securityContext:
+        runAsUser: 1001
+        fsGroup: 1001
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: __STS_NAME__
+        image: axoniq/axonserver:latest-dev-nonroot
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "2"
+            memory: "12Gi"
+          requests:
+            cpu: "1"
+            memory: "8Gi"
+        ports:
+        - name: gui
+          containerPort: 8024
+          protocol: TCP
+        - name: client-grpc
+          containerPort: 8124
+          protocol: TCP
+        env:
+        - name: AXONIQ_AXONSERVER_NAME
+          value: __STS_NAME__
+        - name: AXONIQ_AXONSERVER_HOSTNAME
+          value: __STS_NAME__
+        volumeMounts:
+        - name: data
+          mountPath: /axonserver/data
+        - name: events
+          mountPath: /axonserver/events
+        - name: plugins
+          mountPath: /axonserver/plugins
+        - name: config
+          mountPath: /axonserver/config
+          readOnly: true
+        - name: axonserver-tls-key
+          mountPath: /axonserver/ssl/tls.key
+          subPath: tls.key
+          readOnly: true
+        - name: axonserver-tls-crt
+          mountPath: /axonserver/ssl/tls.crt
+          subPath: tls.crt
+          readOnly: true
+        - name: axonserver-tls-p12
+          mountPath: /axonserver/ssl/tls.p12
+          subPath: tls.p12
+          readOnly: true
+        startupProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+            scheme: HTTPS
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 110
+        readinessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+            scheme: HTTPS
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/info
+            port: 8024
+            scheme: HTTPS
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+      volumes:
+        - name: config
+          configMap:
+            name: axonserver-properties
+        - name: axonserver-tls-key
+          secret:
+            secretName: __STS_NAME__-tls
+            items:
+            - key: tls.key
+              path: tls.key
+        - name: axonserver-tls-crt
+          secret:
+            secretName: __STS_NAME__-tls
+            items:
+            - key: tls.crt
+              path: tls.crt
+        - name: axonserver-tls-p12
+          secret:
+            secretName: __STS_NAME__-tls
+            items:
+            - key: tls.p12
+              path: tls.p12
+  volumeClaimTemplates:
+    - metadata:
+        name: events
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: plugins
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: __STS_NAME__
+  labels:
+    app: __STS_NAME__
+spec:
+  ports:
+  - name: client-grpc
+    port: 8124
+    targetPort: 8124
+    appProtocol: tls
+  clusterIP: None
+  selector:
+    app: __STS_NAME__
+---

@@ -151,6 +151,9 @@
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
                         <configuration>
+			    <container>
+                                <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                            </container>
                             <skip>false</skip>
                             <to>
                                 <image>axonserver-quicktest:${project.version}</image>
@@ -192,6 +195,9 @@
                         <artifactId>jib-maven-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
+                            <container>
+                                <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                            </container>
                             <to>
                                 <image>axoniq/axonserver-quicktest:${project.version}</image>
                             </to>

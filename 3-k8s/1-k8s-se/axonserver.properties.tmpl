@@ -1,0 +1,29 @@
+#    Copyright 2021 AxonIQ B.V.
+
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+
+#        http://www.apache.org/licenses/LICENSE-2.0
+
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+
+axoniq.axonserver.domain=__PUBLIC_DOMAIN__
+
+axoniq.axonserver.accesscontrol.enabled=true
+axoniq.axonserver.accesscontrol.token=__APP_TOKEN__
+axoniq.axonserver.accesscontrol.admin-token=__ADMIN_TOKEN__
+
+server.ssl.key-store-type=PKCS12
+server.ssl.key-store=ssl/tls.p12
+server.ssl.key-store-password=axonserver
+server.ssl.key-alias=axonserver
+security.require-ssl=true
+
+axoniq.axonserver.ssl.enabled=true
+axoniq.axonserver.ssl.cert-chain-file=ssl/tls.crt
+axoniq.axonserver.ssl.private-key-file=ssl/tls.key
