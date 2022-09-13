@@ -3,3 +3,8 @@
 
 # As is the properties file
 axonserver.properties
+axonserver.token
+axonserver.internal-token
+quicktester.token
+
+ssl/
