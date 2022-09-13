@@ -17,4 +17,4 @@
 for src in *.tmpl ; do
     rm -f $(basename ${src} .tmpl)
 done
-rm -rf *.yml axonserver.token axonserver.internal-token ssl
+rm -rf *.yml axonserver.token axonserver.internal-token quicktester.token ssl
