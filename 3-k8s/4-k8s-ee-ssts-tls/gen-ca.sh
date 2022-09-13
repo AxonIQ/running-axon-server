@@ -28,28 +28,28 @@ Usage () {
     echo "Usage: $0 [<options>] [<common-name>]"
     echo ""
     echo "Options:"
-    echo "  --country <name>  Name of the certificate holder's country, default unspecified. Shorthand option '-c'."
-    echo "  --state <name>    Name of the certificate holder's state, default unspecified."
-    echo "  --city <name>     Name of the certificate holder's city, default unspecified."
-    echo "  --org <name>      Name of the certificate holder's organization, default unspecified."
-    echo "  --dn <name>       Name of the certificate holder's 'Distinguished Name', default unspecified."
-    echo "  --output <name>   Base name of the generated files, default 'ca'."
+    echo "  -c <name>  Name of the certificate holder's country, default unspecified."
+    echo "  -s <name>  Name of the certificate holder's state, default unspecified."
+    echo "  -C <name>  Name of the certificate holder's city, default unspecified."
+    echo "  -O <name>  Name of the certificate holder's organization, default unspecified."
+    echo "  -d <name>  Name of the certificate holder's 'Distinguished Name', default unspecified."
+    echo "  -o <name>  Base name of the generated files, default 'ca'."
     exit 1
 }
 
-options=$(getopt -l 'country:,state:,city:,org:,dn:,output:' -- 'c:o:' "$@")
+options=$(getopt 'c:s:C:O:d:o:' "$@")
 [ $? -eq 0 ] || {
     Usage
 }
 eval set -- "$options"
 while true; do
     case $1 in
-    --country|-c)  CERT_COUNTRY=$2 ; shift ;;
-    --state)       CERT_STATE=$2   ; shift ;;
-    --city)        CERT_CITY=$2    ; shift ;;
-    --org)         CERT_ORG=$2     ; shift ;;
-    --dn)          CERT_DN=$2      ; shift ;;
-    --output|-o)   CERT_OUTPUT=$2  ; shift ;;
+    -c)  CERT_COUNTRY=$2 ; shift ;;
+    -s)  CERT_STATE=$2   ; shift ;;
+    -C)  CERT_CITY=$2    ; shift ;;
+    -O)  CERT_ORG=$2     ; shift ;;
+    -d)  CERT_DN=$2      ; shift ;;
+    -o)  CERT_OUTPUT=$2  ; shift ;;
     --)
         shift
         break

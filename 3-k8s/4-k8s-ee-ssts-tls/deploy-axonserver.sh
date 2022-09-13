@@ -14,21 +14,55 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-if [[ $# != 3 ]] ; then
-    echo "Usage: $0 <node-name> <cluster-name> <namespace>"
+NS_NAME=running-ee
+STS_NAME=
+CLUSTER_NAME=axonserver
+
+Usage () {
+    echo "Usage: $0 [<options>] <node-name>"
+    echo ""
+    echo "Options:"
+    echo "  -n <name>  Namespace to deploy to, default '${NS_NAME}'."
+    echo "  -c <name>  Name for the cluster, default '${CLUSTER_NAME}'."
     exit 1
+}
+
+options=$(getopt 'n:c:' "$@")
+[ $? -eq 0 ] || {
+    Usage
+}
+eval set -- "$options"
+while true; do
+    case $1 in
+    -n)    NS_NAME=$2       ; shift ;;
+    -c)    CLUSTER_NAME=$2  ; shift ;;
+    --)
+        shift
+        break
+        ;;
+    esac
+    shift
+done
+
+if [[ $# != 1 ]] ; then
+    Usage
 fi
 
 STS_NAME=$1
-CLUSTER_NAME=$2
-NS_NAME=$3
 
 mkdir -p ssl/${STS_NAME}
 
+FQDN=${STS_NAME}.${NS_NAME}.svc.cluster.local
+echo ""
+echo "Axon Server will be available as ${FQDN}"
+if [ ! -s ssl/${STS_NAME}/fqdn.txt ] ; then
+    echo ${FQDN} > ssl/${STS_NAME}/fqdn.txt
+fi
+
 if [ ! -s ssl/${STS_NAME}/tls.crt ] ; then
     echo ""
-    echo "Generating certificate for '${STS_NAME}.${NS_NAME}.svc.cluster.local'"
-    ./gen-cert.sh -o ssl/${STS_NAME}/tls --ca ssl/internal-ca ${STS_NAME}.${NS_NAME}.svc.cluster.local
+    echo "Generating certificate for '${FQDN}'"
+    ./gen-cert.sh -o ssl/${STS_NAME}/tls -a ssl/internal-ca ${FQDN}
 fi
 
 echo ""

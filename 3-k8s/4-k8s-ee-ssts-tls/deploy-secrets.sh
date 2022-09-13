@@ -23,24 +23,24 @@ Usage () {
     echo "Usage: $0 [<options>]"
     echo ""
     echo "Options:"
-    echo "  --first <name>     Name of the first node, default 'axonserver-1'."
-    echo "  --first-ns <name>  Namespace of the first node, if unequal to current one."
-    echo "  --namespace <name> Namespace to deploy to, default 'running-ee'. Shorthand option '-n'."
-    echo "  --domain <name>    The domain to use for client applications, default same as internal. Shorthand option '-d'."
+    echo "  -f <name>  Name of the first node, default '${FIRST_NAME}'."
+    echo "  -F <name>  Namespace of the first node, if unequal to current one."
+    echo "  -n <name>  Namespace to deploy to, default '${NS_NAME}'."
+    echo "  -d <name>  The domain to use for client applications, default same as internal."
     exit 1
 }
 
-options=$(getopt -l 'first:,first-ns:,namespace:,domain:' -- 'n:d:' "$@")
+options=$(getopt 'f:F:n:d:' "$@")
 [ $? -eq 0 ] || {
     Usage
 }
 eval set -- "$options"
 while true; do
     case $1 in
-    --first)        FIRST_NAME=$2    ; shift ;;
-    --first-ns)     FIRST_NS_NAME=$2 ; shift ;;
-    --namespace|-n) NS_NAME=$2       ; shift ;;
-    --domain|-d)    PUBLIC_DOMAIN=$2 ; shift ;;
+    -f)    FIRST_NAME=$2    ; shift ;;
+    -F)    FIRST_NS_NAME=$2 ; shift ;;
+    -n)    NS_NAME=$2       ; shift ;;
+    -d)    PUBLIC_DOMAIN=$2 ; shift ;;
     --)
         shift
         break
@@ -87,6 +87,7 @@ for src in axonserver.properties.tmpl ; do
     sed -e "s/__FIRST_NAME__/${FIRST_NAME}.${FIRST_NS_NAME}/g" \
         -e "s/__NS_NAME__/${NS_NAME}/g" \
         -e "s/__INTERNAL_TOKEN__/${INTERNAL_TOKEN}/g" \
+        -e "s/__PUBLIC_DOMAIN__/${PUBLIC_DOMAIN}/g" \
         < ${src} > ${dst}
 done
 
