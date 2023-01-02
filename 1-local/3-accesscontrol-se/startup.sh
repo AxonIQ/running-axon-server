@@ -14,4 +14,20 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-nohup java -jar ../../axonserver.jar >/dev/null 2>&1 &
+APP_TOKEN=$(uuidgen)
+ADMIN_TOKEN=$(uuidgen)
+
+(
+    sed -e '/^axoniq.axonserver.accesscontrol.token=/d' \
+        -e '/^axoniq.axonserver.accesscontrol.admin-token=/d' \
+        -e '/^axoniq.axonserver.accesscontrol.adminToken=/d' < axonserver.properties ; \
+    echo "axoniq.axonserver.accesscontrol.token=${APP_TOKEN}" ; \
+    echo "axoniq.axonserver.accesscontrol.admin-token=${ADMIN_TOKEN}"
+) > axonserver-new.properties
+mv axonserver-new.properties axonserver.properties
+
+echo "Starting Axon Server SE"
+echo "- Client application token = ${APP_TOKEN}"
+echo "- Admin token ............ = ${ADMIN_TOKEN}"
+
+nohup java -jar ../../axonserver-se.jar >/dev/null 2>&1 &
