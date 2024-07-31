@@ -55,7 +55,7 @@ if [[ $# != 1 ]] ; then
 fi
 
 if [[ "${IMAGE}" == "" ]] ; then
-    IMAGE=axoniq/axonserver-enterprise:${VERSION}-jdk-11-dev-nonroot
+    IMAGE=axoniq/axonserver:${VERSION}-nonroot
 fi
 
 STS_NAME=$1

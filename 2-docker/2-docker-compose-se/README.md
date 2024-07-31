@@ -1,4 +1,4 @@
-## Running Axon Server SE in Docker with docker-compose
+## Running Axon Server Docker (Single node) with docker-compose
 
 Putting a `startup.sh` and `shutdown.sh` here felt like a bit of overkill, as you can start and stop Axon Server with the "`docker-compose`" command. I have included two versions of the `docker-compose.yml` file here:
 

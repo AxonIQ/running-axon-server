@@ -1,1 +1,1 @@
-docker run -d --rm --name axonserver-se -p 8024:8024 -p 8124:8124 -v %cd%\data:/data -v %cd%\events:/eventdata -v %cd%\config:/config axoniq/axonserver
+docker run -d --rm --name axonserver -p 8024:8024 -p 8124:8124 -v %cd%\data:/data -v %cd%\events:/eventdata -v %cd%\config:/config -e AXONIQ_AXONSERVER_STANDALONE=true axoniq/axonserver

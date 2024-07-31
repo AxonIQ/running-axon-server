@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. -->
 
-# Running Axon Server EE in Kubernetes using Singleton StatefulSets and SSL enabled
+# Running Axon Server (Cluster) in Kubernetes using Singleton StatefulSets and SSL enabled
 
 **Note** We at AxonIQ are aware that many of our customners run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way with developing a deployment plan based on "Singleton StatefulSets". For more information, please [read this article](https://axoniq.io/blog-overview/revisiting-axon-server-in-containers).
 

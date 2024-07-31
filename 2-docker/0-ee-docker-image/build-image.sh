@@ -1,8 +1,8 @@
 #!/bin/bash
 
 TAG=
-TAG_DEF=axonserver-ee:running
-JAR_EE=../../axonserver-ee.jar
+TAG_DEF=axonserver:running
+JAR_EE=../../axonserver.jar
 JAR_CLI=../../axonserver-cli.jar
 
 if [[ $# == 1 ]] ; then
@@ -20,7 +20,7 @@ if [ ! -s ${JAR_CLI} ] ; then
     exit 1
 fi
 
-echo "Building Axon Server EE image as \"${TAG}\"."
+echo "Building Axon Server image as \"${TAG}\"."
 
 cp ${JAR_EE} build/axonserver.jar
 cp ${JAR_CLI} build/axonserver-cli.jar

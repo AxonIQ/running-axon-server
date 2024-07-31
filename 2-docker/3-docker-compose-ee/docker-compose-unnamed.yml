@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   axonserver-1:
-    image: axoniq/axonserver-enterprise:latest-dev
+    image: axoniq/axonserver-enterprise:latest
     hostname: axonserver-1
     volumes:
       - type: bind
@@ -33,7 +33,7 @@ services:
       - axon-demo
 
   axonserver-2:
-    image: axoniq/axonserver-enterprise:latest-dev
+    image: axoniq/axonserver-enterprise:latest
     hostname: axonserver-2
     volumes:
       - type: bind
@@ -65,7 +65,7 @@ services:
       - axon-demo
 
   axonserver-3:
-    image: axoniq/axonserver-enterprise:latest-dev
+    image: axoniq/axonserver-enterprise:latest
     hostname: axonserver-3
     volumes:
       - type: bind

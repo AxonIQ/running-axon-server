@@ -12,6 +12,8 @@ services:
       - '8024:8024'
       - '8124:8124'
       - '8224:8224'
+    environment:
+      - AXONIQ_AXONSERVER_STANDALONE=true
     networks:
       - axon-demo
 

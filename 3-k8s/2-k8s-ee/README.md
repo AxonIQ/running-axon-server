@@ -12,16 +12,16 @@
    See the License for the specific language governing permissions and
    limitations under the License. -->
 
-## Running Axon Server EE in Kubernetes
+## Running Axon Server (Cluster) in Kubernetes
 
-**Note** We at AxonIQ are aware that many of our customners run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way, but be advised that a single `StatefulSet` for a cluster is **not** the recommended way for a production deployment. For more information, please [read this article](https://axoniq.io/blog-overview/revisiting-axon-server-in-containers).
+**Note** We at AxonIQ are aware that many of our customers run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way, but be advised that a single `StatefulSet` for a cluster is **not** the recommended way for a production deployment. For more information, please [read this article](https://axoniq.io/blog-overview/revisiting-axon-server-in-containers).
 
 The `deploy-axonserver.sh` script will use the templates in this directory to generate de `axonserver.properties` ConfigMap, license secret, system-token secret, and all deployment descriptors, given a _service name_ and _Kubernetes namespace_.
 
 To deploy using a "`LoadBalancer`" service for the UI, use:
 
 ```text
-$ ./deploy-axonserver.sh axonserver-enterprise test-ee
+$ ./deploy-axonserver.sh axonserver test-ee
 Generating files
 
 Generating axonserver-ing.yml
@@ -51,7 +51,7 @@ $
 To deploy with an Ingress, use:
 
 ```bash
-$ ./deploy-axonserver.sh axonserver-enterprise test-ee
+$ ./deploy-axonserver.sh axonserver test-ee
 Generating files
 
 Generating axonserver-ing.yml

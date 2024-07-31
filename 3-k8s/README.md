@@ -58,7 +58,7 @@ The Ingress shown above will require you to add hostname "hello-ingress" to your
 
 For Kubernetes we'll run Axon Server as a StatefulSet.
 
-* [**Running Axon Server SE in Kubernetes**](./1-k8s-se)
-* [**Running Axon Server EE in Kubernetes**](./2-k8s-ee)
-* [**Running Axon Server EE in Kubernetes using Singleton StatefulSets**](./3-k8s-ee-ssts)
-* [**Installing Axon Server SE with Helm v3**](./4-helm-se)
+* [**Running Axon Server (Single node) in Kubernetes**](./1-k8s-se)
+* [**Running Axon Server (Cluster) in Kubernetes**](./2-k8s-ee)
+* [**Running Axon Server (Cluster) in Kubernetes using Singleton StatefulSets**](./3-k8s-ee-ssts)
+* [**Installing Axon Server EE with Helm v3**](./4-helm-se)

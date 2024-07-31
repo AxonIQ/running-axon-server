@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. -->
 
-## Running Axen Server SE in Kubernetes
+## Running Axen Server in Kubernetes
 
 To deploy, I suggest you create a separate namespace:
 

@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: axoniq/axonserver:4.5.3
+  repository: axoniq/axonserver:latest
   pullPolicy: IfNotPresent
   # Don't override default
   #tag: ""
@@ -66,6 +66,7 @@ properties:
   content: |-
     axoniq.axonserver.accesscontrol.enabled=true
     axoniq.axonserver.accesscontrol.token=my-token
+    axoniq.axonserver.standalone=true
 
 volumes:
   eventStore:

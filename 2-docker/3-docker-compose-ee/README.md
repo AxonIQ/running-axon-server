@@ -1,4 +1,4 @@
-## Running Axon Server EE in Docker with docker-compose
+## Running an Axon Server cluster  in Docker with docker-compose
 
 When running Axon Server in Docker under a non-root user, we need to be careful about ownership of files. On Linux hosts (including WSL) you'll need to check that the directories are publicly writable, which may be difficult if they are on a Windows drive.
 
@@ -9,7 +9,7 @@ The example in this directory expects the following files to exist:
 * A (valid) license file at "`../../axoniq.license`", and
 * A copy of the Axon Server CLI at "`../../axonserver-cli.jar`". (for creating the admin user)
 
-The Docker image used, "`axoniq/axonserver-enterprise:latest-dev`", is pulled from Docker Hub.
+The Docker image used, "`axoniq/axonserve::latest`", is pulled from Docker Hub.
 
 ### Preparing the secrets
 

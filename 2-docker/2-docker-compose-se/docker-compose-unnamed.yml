@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   axonserver:
-    image: axoniq/axonserver:latest-dev
+    image: axoniq/axonserver:latest
     hostname: axonserver
     volumes:
       - type: bind
@@ -17,6 +17,8 @@ services:
         source: ./config
         target: /config
         read_only: true
+    environment:
+      - AXONIQ_AXONSERVER_STANDALONE=true
     ports:
       - '8024:8024'
       - '8124:8124'

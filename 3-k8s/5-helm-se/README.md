@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. -->
 
-# Deploy Axon Server SE with Helm v3
+# Deploy Axon Server (Single node) with Helm v3
 
 See the provided chart.
 
