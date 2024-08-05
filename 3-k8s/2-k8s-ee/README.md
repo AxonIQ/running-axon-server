@@ -14,7 +14,7 @@
 
 ## Running Axon Server (Cluster) in Kubernetes
 
-**Note** We at AxonIQ are aware that many of our customers run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way, but be advised that a single `StatefulSet` for a cluster is **not** the recommended way for a production deployment. For more information, please [read this article](https://axoniq.io/blog-overview/revisiting-axon-server-in-containers).
+**Note** We at AxonIQ are aware that many of our customers run Axon Server in Kubernetes or want to run it there. The files in this directory are to help you on your way, but be advised that a single `StatefulSet` for a cluster is **not** the recommended way for a production deployment. For more information, please [read this article](https://axoniq.io/blog/revisiting-axon-server-in-containers).
 
 The `deploy-axonserver.sh` script will use the templates in this directory to generate de `axonserver.properties` ConfigMap, license secret, system-token secret, and all deployment descriptors, given a _service name_ and _Kubernetes namespace_.
 
