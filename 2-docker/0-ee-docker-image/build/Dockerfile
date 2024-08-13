@@ -9,7 +9,7 @@ FROM gcr.io/distroless/java:11
 COPY --from=source /etc/passwd /etc/group /etc/
 COPY --from=source --chown=axonserver /axonserver /axonserver
 
-COPY --chown=axonserver axonserver.jar axonserver.properties /axonserver/
+COPY --chown=axonserver axonserver.jar axonserver-cli.jar axonserver.properties /axonserver/
 
 USER axonserver
 WORKDIR /axonserver
